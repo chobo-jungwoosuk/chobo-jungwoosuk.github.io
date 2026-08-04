@@ -384,6 +384,169 @@
 
 
 
+
+    .toolbar{
+      display:flex;
+      justify-content:flex-end;
+      margin:-4px 0 18px;
+    }
+    .admin-open-button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+    }
+    .admin-open-button:hover{background:#edf4fa}
+    .admin-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .admin-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.72);
+      z-index:10000;
+    }
+    .admin-modal.is-open{display:flex}
+    .admin-dialog{
+      width:min(1040px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.32);
+    }
+    .admin-header{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .admin-header h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .admin-header p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+    .admin-close{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#e9edf1;
+      color:#2f3a44;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .admin-content{padding:20px}
+    .admin-summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .admin-stat{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+    }
+    .admin-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-stat strong{
+      display:block;
+      margin-top:3px;
+      color:var(--navy);
+      font-size:1.25rem;
+    }
+    .admin-section{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .admin-section h3{
+      margin:0;
+      padding:13px 15px;
+      background:#edf4fa;
+      color:var(--navy);
+      font-size:1rem;
+    }
+    .admin-list{
+      list-style:none;
+      margin:0;
+      padding:0 15px;
+    }
+    .admin-list li{
+      padding:11px 0;
+      border-bottom:1px solid #edf1f4;
+      word-break:break-all;
+      font-size:.88rem;
+    }
+    .admin-list li:last-child{border-bottom:0}
+    .admin-good{
+      padding:16px;
+      color:#2f6d45;
+      background:#f3fbf6;
+      font-size:.9rem;
+    }
+    .admin-path{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:18px;
+    }
+    .admin-links a{
+      display:inline-flex;
+      align-items:center;
+      border-radius:9px;
+      padding:9px 12px;
+      background:var(--navy);
+      color:#fff;
+      text-decoration:none;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .title-clean-note{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+
+    @media(max-width:760px){
+      .admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .admin-header{align-items:flex-start}
+    }
+
     .mobile-preview-note{
       display:none;
       margin:0 0 16px;
@@ -614,7 +777,170 @@
     }
 
     @media(max-width:760px){
-      .mobile-preview-note{display:block}
+  
+    .toolbar{
+      display:flex;
+      justify-content:flex-end;
+      margin:-4px 0 18px;
+    }
+    .admin-open-button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+    }
+    .admin-open-button:hover{background:#edf4fa}
+    .admin-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .admin-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.72);
+      z-index:10000;
+    }
+    .admin-modal.is-open{display:flex}
+    .admin-dialog{
+      width:min(1040px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.32);
+    }
+    .admin-header{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .admin-header h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .admin-header p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+    .admin-close{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#e9edf1;
+      color:#2f3a44;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .admin-content{padding:20px}
+    .admin-summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .admin-stat{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+    }
+    .admin-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-stat strong{
+      display:block;
+      margin-top:3px;
+      color:var(--navy);
+      font-size:1.25rem;
+    }
+    .admin-section{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .admin-section h3{
+      margin:0;
+      padding:13px 15px;
+      background:#edf4fa;
+      color:var(--navy);
+      font-size:1rem;
+    }
+    .admin-list{
+      list-style:none;
+      margin:0;
+      padding:0 15px;
+    }
+    .admin-list li{
+      padding:11px 0;
+      border-bottom:1px solid #edf1f4;
+      word-break:break-all;
+      font-size:.88rem;
+    }
+    .admin-list li:last-child{border-bottom:0}
+    .admin-good{
+      padding:16px;
+      color:#2f6d45;
+      background:#f3fbf6;
+      font-size:.9rem;
+    }
+    .admin-path{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:18px;
+    }
+    .admin-links a{
+      display:inline-flex;
+      align-items:center;
+      border-radius:9px;
+      padding:9px 12px;
+      background:var(--navy);
+      color:#fff;
+      text-decoration:none;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .title-clean-note{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+
+    @media(max-width:760px){
+      .admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .admin-header{align-items:flex-start}
+    }
+
+    .mobile-preview-note{display:block}
       .summary{grid-template-columns:1fr}
       .room-grid,.favorite-grid,.document-grid{grid-template-columns:1fr}
       .room-card.is-open{grid-column:auto}
@@ -661,6 +987,11 @@
       모바일에서는 브라우저 제한으로 페이지 안 미리보기가 지원되지 않을 수 있어, PDF가 새 화면으로 열립니다.
     </div>
 
+    
+    <div class="toolbar">
+      <button id="adminOpen" class="admin-open-button" type="button">관리 도우미</button>
+    </div>
+
     <section class="summary" aria-label="자료 현황">
       <div class="summary-card">
         <span class="summary-label">실습실 구분</span>
@@ -694,6 +1025,47 @@
   </main>
 
 
+
+
+  <div id="adminModal" class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+    <div class="admin-dialog">
+      <div class="admin-header">
+        <div>
+          <h2 id="adminTitle">MSDS 관리 도우미</h2>
+          <p>GitHub 자료 구조를 읽어 점검 결과와 정리 권장사항을 보여줍니다.</p>
+        </div>
+        <button id="adminClose" class="admin-close" type="button">닫기</button>
+      </div>
+      <div class="admin-content">
+        <div class="admin-summary">
+          <div class="admin-stat"><span>정상 PDF</span><strong id="adminPdfCount">0건</strong></div>
+          <div class="admin-stat"><span>중복 의심</span><strong id="adminDuplicateCount">0건</strong></div>
+          <div class="admin-stat"><span>폴더 오류</span><strong id="adminFolderErrorCount">0건</strong></div>
+          <div class="admin-stat"><span>파일명 정리 권장</span><strong id="adminNameIssueCount">0건</strong></div>
+        </div>
+
+        <section class="admin-section">
+          <h3>중복 의심 자료</h3>
+          <div id="duplicateResults"></div>
+        </section>
+
+        <section class="admin-section">
+          <h3>폴더 위치 점검</h3>
+          <div id="folderResults"></div>
+        </section>
+
+        <section class="admin-section">
+          <h3>파일명 정리 권장</h3>
+          <div id="nameResults"></div>
+        </section>
+
+        <div class="admin-links">
+          <a href="https://github.com/chobo-jungwoosuk/chobo-jungwoosuk.github.io/tree/main/pdf" target="_blank" rel="noopener">GitHub PDF 폴더 열기</a>
+          <a href="https://github.com/chobo-jungwoosuk/chobo-jungwoosuk.github.io/upload/main/pdf" target="_blank" rel="noopener">PDF 업로드 화면 열기</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="previewModal" class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
     <div class="preview-dialog">
@@ -766,6 +1138,7 @@
 
     const roomNames = new Set(rooms.map(room => room.name));
     let documents = [];
+    let repositoryFiles = [];
     let favorites = new Set(JSON.parse(localStorage.getItem("msdsFavorites") || "[]"));
 
     const roomGrid = document.getElementById("roomGrid");
@@ -776,6 +1149,17 @@
     const favoritesSection = document.getElementById("favoritesSection");
     const favoriteGrid = document.getElementById("favoriteGrid");
     const statusBox = document.getElementById("status");
+    const adminModal = document.getElementById("adminModal");
+    const adminOpen = document.getElementById("adminOpen");
+    const adminClose = document.getElementById("adminClose");
+    const adminPdfCount = document.getElementById("adminPdfCount");
+    const adminDuplicateCount = document.getElementById("adminDuplicateCount");
+    const adminFolderErrorCount = document.getElementById("adminFolderErrorCount");
+    const adminNameIssueCount = document.getElementById("adminNameIssueCount");
+    const duplicateResults = document.getElementById("duplicateResults");
+    const folderResults = document.getElementById("folderResults");
+    const nameResults = document.getElementById("nameResults");
+
     const previewModal = document.getElementById("previewModal");
     const previewTitle = document.getElementById("previewTitle");
     const previewSubtitle = document.getElementById("previewSubtitle");
@@ -795,15 +1179,36 @@
     function normalize(value){
       return String(value ?? "")
         .toLocaleLowerCase("ko-KR")
-        .replace(/\s+/g,"")
         .replace(/[₂]/g,"2")
         .replace(/[₃]/g,"3")
-        .replace(/[₈]/g,"8");
+        .replace(/[₈]/g,"8")
+        .replace(/[\s._\-()[\]{}]+/g,"");
+    }
+
+    function rawTitleFromPath(path){
+      const fileName = path.split("/").pop() || "";
+      return fileName.replace(/\.pdf$/i,"");
+    }
+
+    function cleanDisplayTitle(rawTitle){
+      let title = String(rawTitle || "");
+
+      title = title
+        .replace(/^\s*\d{1,4}[\s._-]+/, "")
+        .replace(/[\s_-]*(물질안전보건자료|msds|sds)[\s_-]*/gi, " ")
+        .replace(/[\s_-]*(최종|final|최신본|개정본|수정본)[\s_-]*/gi, " ")
+        .replace(/\((최종|final|최신본|개정본|수정본)\)/gi, "")
+        .replace(/\[(최종|final|최신본|개정본|수정본)\]/gi, "")
+        .replace(/(?:19|20)\d{2}[._-]?(?:0?[1-9]|1[0-2])?[._-]?(?:0?[1-9]|[12]\d|3[01])?$/g, "")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+
+      return title || rawTitle;
     }
 
     function titleFromPath(path){
-      const fileName = path.split("/").pop() || "";
-      return fileName.replace(/\.pdf$/i,"");
+      return cleanDisplayTitle(rawTitleFromPath(path));
     }
 
     function roomFromPath(path){
@@ -840,6 +1245,13 @@
       });
     }
 
+
+    adminOpen.addEventListener("click",openAdminModal);
+    adminClose.addEventListener("click",closeAdminModal);
+    adminModal.addEventListener("click",event => {
+      if(event.target === adminModal) closeAdminModal();
+    });
+
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
       if(event.target === previewModal) closePreviewModal();
@@ -856,6 +1268,7 @@
     });
     document.addEventListener("keydown",event => {
       if(event.key !== "Escape") return;
+      if(adminModal.classList.contains("is-open")) closeAdminModal();
       if(previewModal.classList.contains("is-open")) closePreviewModal();
       if(qrModal.classList.contains("is-open")) closeQrModal();
     });
@@ -958,6 +1371,13 @@
 
       main.append(title,room);
 
+      if(doc.rawTitle && doc.rawTitle !== doc.title){
+        const cleanNote = document.createElement("span");
+        cleanNote.className = "title-clean-note";
+        cleanNote.textContent = `원본 파일명: ${doc.rawTitle}`;
+        main.appendChild(cleanNote);
+      }
+
       const favoriteButton = document.createElement("button");
       favoriteButton.type = "button";
       favoriteButton.className = "favorite-button";
@@ -1033,6 +1453,103 @@
       return response.json();
     }
 
+
+    function createResultList(items, emptyMessage){
+      if(items.length === 0){
+        const good = document.createElement("div");
+        good.className = "admin-good";
+        good.textContent = emptyMessage;
+        return good;
+      }
+
+      const list = document.createElement("ul");
+      list.className = "admin-list";
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = item;
+        list.appendChild(li);
+      });
+      return list;
+    }
+
+    function nameNeedsCleanup(rawTitle, cleanTitle){
+      if(rawTitle !== cleanTitle) return true;
+      return /[_]{1,}|-{2,}|\s{2,}|^(?:19|20)\d{2}|\b(msds|sds)\b/i.test(rawTitle);
+    }
+
+    function runAdminDiagnostics(){
+      const pdfFiles = repositoryFiles.filter(item =>
+        item.type === "blob" && /^pdf\/.+\.pdf$/i.test(item.path)
+      );
+
+      const folderErrors = [];
+      pdfFiles.forEach(item => {
+        const room = roomFromPath(item.path);
+        if(!roomNames.has(room)){
+          folderErrors.push(
+            `<strong>허용되지 않은 실습실 폴더</strong><span class="admin-path">${item.path}</span>`
+          );
+        }
+      });
+
+      const nameIssues = [];
+      documents.forEach(doc => {
+        if(nameNeedsCleanup(doc.rawTitle, doc.title)){
+          nameIssues.push(
+            `<strong>${doc.rawTitle}</strong> → 권장 표시명: <strong>${doc.title}</strong><span class="admin-path">${decodeURI(doc.file)}</span>`
+          );
+        }
+      });
+
+      const groups = new Map();
+      documents.forEach(doc => {
+        const key = `${doc.room}|${normalize(doc.title)}`;
+        if(!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(doc);
+      });
+
+      const duplicateIssues = [];
+      groups.forEach(group => {
+        if(group.length > 1){
+          duplicateIssues.push(
+            `<strong>${group[0].room} · ${group[0].title}</strong><span class="admin-path">${group.map(doc => decodeURI(doc.file)).join("<br>")}</span>`
+          );
+        }
+      });
+
+      adminPdfCount.textContent = `${documents.length}건`;
+      adminDuplicateCount.textContent = `${duplicateIssues.length}건`;
+      adminFolderErrorCount.textContent = `${folderErrors.length}건`;
+      adminNameIssueCount.textContent = `${nameIssues.length}건`;
+
+      duplicateResults.innerHTML = "";
+      duplicateResults.appendChild(
+        createResultList(duplicateIssues, "중복으로 의심되는 자료가 없습니다.")
+      );
+
+      folderResults.innerHTML = "";
+      folderResults.appendChild(
+        createResultList(folderErrors, "모든 PDF가 지정된 실습실 폴더 안에 있습니다.")
+      );
+
+      nameResults.innerHTML = "";
+      nameResults.appendChild(
+        createResultList(nameIssues, "정리가 필요한 파일명이 없습니다.")
+      );
+    }
+
+    function openAdminModal(){
+      runAdminDiagnostics();
+      adminModal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      adminClose.focus();
+    }
+
+    function closeAdminModal(){
+      adminModal.classList.remove("is-open");
+      document.body.style.overflow = "";
+    }
+
     async function loadDocuments(){
       try{
         const treeData = await fetchJson(TREE_API);
@@ -1041,14 +1558,18 @@
           throw new Error("저장소 파일 목록이 너무 커서 일부만 불러왔습니다.");
         }
 
-        documents = treeData.tree
+        repositoryFiles = treeData.tree;
+
+        documents = repositoryFiles
           .filter(item => item.type === "blob")
           .filter(item => /^pdf\/.+\.pdf$/i.test(item.path))
           .map(item => {
             const room = roomFromPath(item.path);
+            const rawTitle = rawTitleFromPath(item.path);
             return {
               room,
-              title:titleFromPath(item.path),
+              rawTitle,
+              title:cleanDisplayTitle(rawTitle),
               file:fileUrl(item.path),
               size:item.size || 0
             };
@@ -1078,6 +1599,13 @@
       });
     }
 
+
+    adminOpen.addEventListener("click",openAdminModal);
+    adminClose.addEventListener("click",closeAdminModal);
+    adminModal.addEventListener("click",event => {
+      if(event.target === adminModal) closeAdminModal();
+    });
+
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
       if(event.target === previewModal) closePreviewModal();
@@ -1094,6 +1622,7 @@
     });
     document.addEventListener("keydown",event => {
       if(event.key !== "Escape") return;
+      if(adminModal.classList.contains("is-open")) closeAdminModal();
       if(previewModal.classList.contains("is-open")) closePreviewModal();
       if(qrModal.classList.contains("is-open")) closeQrModal();
     });
@@ -1131,6 +1660,7 @@
               room.name,
               room.number,
               doc.title,
+              doc.rawTitle,
               aliasText(doc.title)
             ].join(" ");
             return normalize(target).includes(keyword);
@@ -1221,6 +1751,13 @@
       });
     }
 
+
+    adminOpen.addEventListener("click",openAdminModal);
+    adminClose.addEventListener("click",closeAdminModal);
+    adminModal.addEventListener("click",event => {
+      if(event.target === adminModal) closeAdminModal();
+    });
+
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
       if(event.target === previewModal) closePreviewModal();
@@ -1237,6 +1774,7 @@
     });
     document.addEventListener("keydown",event => {
       if(event.key !== "Escape") return;
+      if(adminModal.classList.contains("is-open")) closeAdminModal();
       if(previewModal.classList.contains("is-open")) closePreviewModal();
       if(qrModal.classList.contains("is-open")) closeQrModal();
     });
