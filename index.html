@@ -21,6 +21,7 @@
       --shadow-soft:0 4px 14px rgba(20,55,88,.06);
       --focus:#ffbf47;
       --danger:#d9363e;
+      --gold:#e3a008;
     }
 
     *{box-sizing:border-box}
@@ -178,6 +179,17 @@
       font-size:.9rem;
     }
 
+    .favorites-section{
+      display:none;
+      margin-bottom:24px;
+    }
+    .favorites-section.is-visible{display:block}
+    .favorite-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
     .room-grid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
@@ -250,51 +262,94 @@
 
     .room-body{
       display:none;
-      padding:8px 18px 16px;
+      padding:14px 18px 18px;
       border-top:1px solid var(--line);
       background:#fff;
     }
     .room-card.is-open .room-body{display:block}
 
-    .document-list{
-      list-style:none;
-      margin:0;
-      padding:0;
-    }
-    .document-list li{
-      border-bottom:1px solid #edf1f4;
-    }
-    .document-list li:last-child{border-bottom:0}
-    .document-list a{
-      display:flex;
-      align-items:center;
+    .document-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:12px;
-      padding:14px 4px;
-      color:#174f80;
-      text-decoration:none;
-      font-weight:700;
     }
-    .document-list a:hover{text-decoration:underline}
+
+    .document-card{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:16px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .document-top{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+
     .pdf-badge{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      min-width:38px;
-      height:24px;
-      border-radius:5px;
+      min-width:42px;
+      height:28px;
+      border-radius:6px;
       background:var(--danger);
       color:#fff;
-      font-size:.7rem;
+      font-size:.72rem;
       font-weight:800;
       flex:0 0 auto;
     }
-    .doc-title{flex:1}
-    .meta{
+
+    .doc-main{flex:1;min-width:0}
+    .doc-title{
+      margin:0;
+      color:var(--navy);
+      font-size:1rem;
+      font-weight:800;
+      word-break:break-word;
+    }
+    .doc-room{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+
+    .favorite-button{
+      border:0;
+      background:transparent;
+      color:#a7adb3;
+      font-size:1.35rem;
+      cursor:pointer;
+      padding:0 2px;
+      line-height:1;
+    }
+    .favorite-button.is-favorite{color:var(--gold)}
+    .favorite-button:focus{
+      outline:3px solid var(--focus);
+      border-radius:4px;
+    }
+
+    .document-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .doc-meta{
       color:var(--muted);
       font-size:.78rem;
-      font-weight:500;
-      flex:0 0 auto;
     }
+    .open-link{
+      color:#174f80;
+      text-decoration:none;
+      font-weight:800;
+      font-size:.88rem;
+    }
+    .open-link:hover{text-decoration:underline}
 
     .empty-state{
       text-align:center;
@@ -329,7 +384,7 @@
 
     @media(max-width:760px){
       .summary{grid-template-columns:1fr}
-      .room-grid{grid-template-columns:1fr}
+      .room-grid,.favorite-grid,.document-grid{grid-template-columns:1fr}
       .room-card.is-open{grid-column:auto}
       .hero{padding:44px 18px 66px}
       main{width:min(100% - 18px,1120px)}
@@ -337,8 +392,6 @@
         justify-content:center;
         text-align:center;
       }
-      .document-list a{align-items:flex-start}
-      .meta{white-space:nowrap}
     }
   </style>
 </head>
@@ -365,9 +418,9 @@
     <section class="search-panel">
       <div class="search-head">
         <label for="searchInput">물질명 또는 제품명 검색</label>
-        <span>제품명·실습실명·호실 검색 지원</span>
+        <span>한글명·영문명·화학식·실습실명·호실 검색 지원</span>
       </div>
-      <input id="searchInput" type="search" placeholder="예: 산소, 프로판, 가스용접실, 8-2050" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="예: 산소, oxygen, O2, 가스용접실, 8-2050" autocomplete="off">
     </section>
 
     <div id="status" class="status">GitHub에서 최신 PDF 목록을 불러오는 중입니다.</div>
@@ -382,9 +435,17 @@
         <span id="totalCount" class="summary-value">0건</span>
       </div>
       <div class="summary-card">
-        <span class="summary-label">최근 업데이트</span>
-        <span id="latestUpdate" class="summary-value">확인 중</span>
+        <span class="summary-label">즐겨찾기</span>
+        <span id="favoriteCount" class="summary-value">0건</span>
       </div>
+    </section>
+
+    <section id="favoritesSection" class="favorites-section">
+      <div class="section-title">
+        <h2>즐겨찾기</h2>
+        <p>별표를 누른 자료가 이 기기에 저장됩니다.</p>
+      </div>
+      <div id="favoriteGrid" class="favorite-grid"></div>
     </section>
 
     <div class="section-title">
@@ -406,7 +467,6 @@
     const REPO = "chobo-jungwoosuk.github.io";
     const BRANCH = "main";
     const TREE_API = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
-    const COMMIT_API = `https://api.github.com/repos/${OWNER}/${REPO}/commits/${BRANCH}`;
 
     const rooms = [
       { name:"용접실습실", number:"8-1060" },
@@ -421,18 +481,37 @@
       { name:"공용", number:"" }
     ];
 
+    const aliases = {
+      "산소":["oxygen","o2","o₂"],
+      "아르곤":["argon","ar"],
+      "아세틸렌":["acetylene","c2h2","c₂h₂"],
+      "이산화탄소":["carbon dioxide","co2","co₂"],
+      "질소":["nitrogen","n2","n₂"],
+      "프로판":["propane","c3h8","c₃h₈"],
+      "수소":["hydrogen","h2","h₂"],
+      "헬륨":["helium","he"]
+    };
+
     const roomNames = new Set(rooms.map(room => room.name));
     let documents = [];
+    let favorites = new Set(JSON.parse(localStorage.getItem("msdsFavorites") || "[]"));
 
     const roomGrid = document.getElementById("roomGrid");
     const searchInput = document.getElementById("searchInput");
     const noResult = document.getElementById("noResult");
     const totalCount = document.getElementById("totalCount");
-    const latestUpdate = document.getElementById("latestUpdate");
+    const favoriteCount = document.getElementById("favoriteCount");
+    const favoritesSection = document.getElementById("favoritesSection");
+    const favoriteGrid = document.getElementById("favoriteGrid");
     const statusBox = document.getElementById("status");
 
     function normalize(value){
-      return String(value ?? "").toLocaleLowerCase("ko-KR");
+      return String(value ?? "")
+        .toLocaleLowerCase("ko-KR")
+        .replace(/\s+/g,"")
+        .replace(/[₂]/g,"2")
+        .replace(/[₃]/g,"3")
+        .replace(/[₈]/g,"8");
     }
 
     function titleFromPath(path){
@@ -450,15 +529,96 @@
       return encodeURI(path);
     }
 
-    function formatDate(dateString){
-      if(!dateString) return "확인 불가";
-      const date = new Date(dateString);
-      if(Number.isNaN(date.getTime())) return "확인 불가";
-      return new Intl.DateTimeFormat("ko-KR",{
-        year:"numeric",
-        month:"2-digit",
-        day:"2-digit"
-      }).format(date);
+    function aliasText(title){
+      return aliases[title]?.join(" ") || "";
+    }
+
+    function saveFavorites(){
+      localStorage.setItem("msdsFavorites", JSON.stringify([...favorites]));
+    }
+
+    function toggleFavorite(path){
+      if(favorites.has(path)){
+        favorites.delete(path);
+      }else{
+        favorites.add(path);
+      }
+      saveFavorites();
+      updateFavoriteCount();
+      renderFavorites();
+      render(searchInput.value);
+    }
+
+    function updateFavoriteCount(){
+      favoriteCount.textContent = `${favorites.size}건`;
+    }
+
+    function createDocumentCard(doc){
+      const card = document.createElement("article");
+      card.className = "document-card";
+
+      const top = document.createElement("div");
+      top.className = "document-top";
+
+      const badge = document.createElement("span");
+      badge.className = "pdf-badge";
+      badge.textContent = "PDF";
+
+      const main = document.createElement("div");
+      main.className = "doc-main";
+
+      const title = document.createElement("h3");
+      title.className = "doc-title";
+      title.textContent = doc.title;
+
+      const room = document.createElement("p");
+      room.className = "doc-room";
+      room.textContent = doc.room;
+
+      main.append(title,room);
+
+      const favoriteButton = document.createElement("button");
+      favoriteButton.type = "button";
+      favoriteButton.className = "favorite-button";
+      favoriteButton.classList.toggle("is-favorite", favorites.has(doc.file));
+      favoriteButton.textContent = favorites.has(doc.file) ? "★" : "☆";
+      favoriteButton.setAttribute(
+        "aria-label",
+        favorites.has(doc.file) ? "즐겨찾기 해제" : "즐겨찾기 추가"
+      );
+      favoriteButton.addEventListener("click",() => toggleFavorite(doc.file));
+
+      top.append(badge,main,favoriteButton);
+
+      const actions = document.createElement("div");
+      actions.className = "document-actions";
+
+      const meta = document.createElement("span");
+      meta.className = "doc-meta";
+      meta.textContent = doc.size
+        ? `${Math.max(1,Math.round(doc.size / 1024))} KB`
+        : "PDF";
+
+      const link = document.createElement("a");
+      link.className = "open-link";
+      link.href = doc.file;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "바로보기 →";
+
+      actions.append(meta,link);
+      card.append(top,actions);
+      return card;
+    }
+
+    function renderFavorites(){
+      const favoriteDocs = documents.filter(doc => favorites.has(doc.file));
+      favoriteGrid.innerHTML = "";
+      favoritesSection.classList.toggle("is-visible", favoriteDocs.length > 0);
+
+      favoriteDocs
+        .sort((a,b) => a.title.localeCompare(b.title,"ko"))
+        .forEach(doc => favoriteGrid.appendChild(createDocumentCard(doc)));
     }
 
     async function fetchJson(url){
@@ -476,10 +636,7 @@
 
     async function loadDocuments(){
       try{
-        const [treeData, commitData] = await Promise.all([
-          fetchJson(TREE_API),
-          fetchJson(COMMIT_API)
-        ]);
+        const treeData = await fetchJson(TREE_API);
 
         if(treeData.truncated){
           throw new Error("저장소 파일 목록이 너무 커서 일부만 불러왔습니다.");
@@ -503,23 +660,24 @@
             a.title.localeCompare(b.title,"ko")
           );
 
-        totalCount.textContent = `${documents.length}건`;
-        latestUpdate.textContent = formatDate(
-          commitData?.commit?.committer?.date ||
-          commitData?.commit?.author?.date
-        );
+        favorites = new Set([...favorites].filter(path =>
+          documents.some(doc => doc.file === path)
+        ));
+        saveFavorites();
 
+        totalCount.textContent = `${documents.length}건`;
         statusBox.textContent =
           `최신 PDF 목록을 자동으로 불러왔습니다. 현재 ${documents.length}건이 등록되어 있습니다.`;
         statusBox.classList.remove("error");
 
+        updateFavoriteCount();
+        renderFavorites();
         render(searchInput.value);
       }catch(error){
         console.error(error);
         statusBox.textContent =
           "PDF 자동 목록을 불러오지 못했습니다. 잠시 후 새로고침하거나 GitHub 저장소 공개 상태를 확인하십시오.";
         statusBox.classList.add("error");
-        latestUpdate.textContent = "확인 불가";
         render(searchInput.value);
       }
     }
@@ -541,7 +699,12 @@
           .filter(doc => doc.room === room.name)
           .filter(doc => {
             if(!keyword) return true;
-            const target = [room.name,room.number,doc.title].join(" ");
+            const target = [
+              room.name,
+              room.number,
+              doc.title,
+              aliasText(doc.title)
+            ].join(" ");
             return normalize(target).includes(keyword);
           })
           .sort((a,b) => a.title.localeCompare(b.title,"ko"));
@@ -594,46 +757,20 @@
           }
         });
 
-        const list = document.createElement("ul");
-        list.className = "document-list";
-
         if(roomDocs.length === 0){
-          const empty = document.createElement("li");
+          const empty = document.createElement("div");
           empty.className = "empty-state";
           empty.innerHTML =
             "<strong>등록된 MSDS가 없습니다.</strong><span>해당 실습실 폴더에 PDF를 올리면 자동으로 표시됩니다.</span>";
-          list.appendChild(empty);
+          body.appendChild(empty);
         }else{
-          roomDocs.forEach(doc => {
-            visibleDocs += 1;
-
-            const item = document.createElement("li");
-            const link = document.createElement("a");
-            link.href = doc.file;
-            link.target = "_blank";
-            link.rel = "noopener";
-
-            const badge = document.createElement("span");
-            badge.className = "pdf-badge";
-            badge.textContent = "PDF";
-
-            const title = document.createElement("span");
-            title.className = "doc-title";
-            title.textContent = doc.title;
-
-            const meta = document.createElement("span");
-            meta.className = "meta";
-            meta.textContent = doc.size
-              ? `${Math.max(1,Math.round(doc.size / 1024))} KB`
-              : "PDF";
-
-            link.append(badge,title,meta);
-            item.appendChild(link);
-            list.appendChild(item);
-          });
+          visibleDocs += roomDocs.length;
+          const grid = document.createElement("div");
+          grid.className = "document-grid";
+          roomDocs.forEach(doc => grid.appendChild(createDocumentCard(doc)));
+          body.appendChild(grid);
         }
 
-        body.appendChild(list);
         card.append(header,body);
         roomGrid.appendChild(card);
       });
@@ -644,6 +781,7 @@
 
     searchInput.addEventListener("input",event => render(event.target.value));
 
+    updateFavoriteCount();
     render();
     loadDocuments();
   </script>
