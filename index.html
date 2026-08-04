@@ -1,182 +1,400 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="한국폴리텍대학 창원캠퍼스 산업설비자동화과 MSDS 자료실">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="한국폴리텍대학 창원캠퍼스 산업설비자동화과 MSDS 자료실" />
   <title>산업설비자동화과 MSDS 자료실</title>
+
   <style>
     :root {
       --navy: #123d6a;
       --blue: #1f5f99;
-      --light: #f4f7fa;
-      --line: #d8e1ea;
-      --text: #1d2935;
-      --muted: #5e6b78;
-      --white: #ffffff;
+      --blue-2: #2c74ad;
+      --blue-soft: #edf4fa;
+      --bg: #f3f6f9;
+      --card: #ffffff;
+      --line: #d8e2ea;
+      --text: #1e2933;
+      --muted: #66727e;
+      --shadow: 0 10px 28px rgba(20, 55, 88, 0.10);
+      --shadow-soft: 0 4px 14px rgba(20, 55, 88, 0.06);
       --focus: #ffbf47;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
       color: var(--text);
-      background: var(--light);
+      background: var(--bg);
       line-height: 1.6;
     }
-    header {
-      background: linear-gradient(135deg, var(--navy), var(--blue));
-      color: var(--white);
-      padding: 42px 20px 36px;
+
+    .topbar {
+      background: #0f2f50;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.86rem;
+    }
+
+    .topbar-inner {
+      width: min(1120px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 9px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.10), transparent 28%),
+        linear-gradient(135deg, var(--navy), var(--blue-2));
+      color: white;
+      padding: 58px 20px 78px;
       text-align: center;
     }
-    header p {
-      margin: 0 0 8px;
-      font-size: clamp(0.95rem, 2.5vw, 1.15rem);
+
+    .hero-inner {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
+      font-weight: 700;
       opacity: 0.95;
     }
-    header h1 {
+
+    .hero h1 {
       margin: 0;
-      font-size: clamp(2rem, 6vw, 3.3rem);
-      letter-spacing: -0.04em;
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      letter-spacing: -0.05em;
+      line-height: 1.15;
     }
+
+    .hero-desc {
+      max-width: 680px;
+      margin: 18px auto 0;
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
+      opacity: 0.92;
+    }
+
     main {
-      width: min(1080px, calc(100% - 32px));
-      margin: -18px auto 48px;
+      width: min(1120px, calc(100% - 28px));
+      margin: -42px auto 48px;
     }
+
     .search-panel {
-      background: var(--white);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(20, 48, 77, 0.12);
+      background: var(--card);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(216, 226, 234, 0.9);
+      margin-bottom: 24px;
+    }
+
+    .search-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-head label {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .search-head span {
+      color: var(--muted);
+      font-size: 0.87rem;
+    }
+
+    .search-panel input {
+      width: 100%;
+      padding: 15px 17px;
+      border: 2px solid var(--line);
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      background: #fff;
+    }
+
+    .search-panel input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(31, 95, 153, 0.12);
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
       margin-bottom: 22px;
     }
-    label {
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 17px 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .summary-label {
       display: block;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    input[type="search"] {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid var(--line);
-      border-radius: 10px;
-      font-size: 1rem;
-    }
-    input[type="search"]:focus {
-      outline: 3px solid var(--focus);
-      border-color: var(--navy);
-    }
-    .notice {
-      margin: 12px 0 0;
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.84rem;
+      margin-bottom: 4px;
     }
-    .grid {
+
+    .summary-value {
+      color: var(--navy);
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 0 0 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.35rem;
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .room-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
-    .room {
-      background: var(--white);
+
+    .room-card {
+      background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(20, 48, 77, 0.06);
+      box-shadow: var(--shadow-soft);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
-    .room h2 {
-      margin: 0;
-      padding: 17px 20px;
-      background: #eaf1f7;
+
+    .room-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .room-header {
+      width: 100%;
+      border: 0;
+      background: var(--blue-soft);
       color: var(--navy);
-      font-size: 1.25rem;
-      border-bottom: 1px solid var(--line);
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
     }
-    .documents {
-      list-style: none;
-      margin: 0;
+
+    .room-header:hover { background: #e4eff8; }
+
+    .room-header:focus {
+      outline: 3px solid var(--focus);
+      outline-offset: -3px;
+    }
+
+    .room-name {
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .room-count {
+      min-width: 42px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .room-body {
       padding: 8px 18px 16px;
     }
-    .documents li {
+
+    .document-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .document-list li {
       border-bottom: 1px solid #edf1f4;
     }
-    .documents li:last-child { border-bottom: 0; }
-    .documents a {
+
+    .document-list li:last-child { border-bottom: 0; }
+
+    .document-list a {
       display: flex;
       justify-content: space-between;
       gap: 12px;
       padding: 13px 4px;
-      color: #124f85;
+      color: #174f80;
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
     }
-    .documents a:hover { text-decoration: underline; }
-    .documents a:focus {
-      outline: 3px solid var(--focus);
-      border-radius: 4px;
-    }
-    .tag {
-      flex: 0 0 auto;
+
+    .document-list a:hover { text-decoration: underline; }
+
+    .meta {
       color: var(--muted);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
+      flex: 0 0 auto;
     }
-    .empty {
-      padding: 18px 4px 8px;
+
+    .empty-state {
+      text-align: center;
       color: var(--muted);
-      font-size: 0.92rem;
+      padding: 23px 10px 18px;
     }
-    .no-results {
+
+    .empty-state strong {
+      display: block;
+      color: #45515c;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+
+    .empty-state span {
+      font-size: 0.85rem;
+    }
+
+    .no-result {
       display: none;
       margin-top: 20px;
-      padding: 24px;
+      padding: 28px;
       text-align: center;
-      background: var(--white);
+      background: white;
       border: 1px solid var(--line);
-      border-radius: 12px;
+      border-radius: 14px;
+      color: var(--muted);
     }
+
     footer {
       text-align: center;
       color: var(--muted);
-      padding: 18px;
-      font-size: 0.85rem;
+      font-size: 0.84rem;
+      padding: 12px 20px 30px;
     }
-    @media (max-width: 720px) {
-      .grid { grid-template-columns: 1fr; }
-      header { padding-top: 34px; }
-      main { width: min(100% - 20px, 1080px); }
+
+    @media (max-width: 760px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .room-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 44px 18px 66px;
+      }
+
+      main {
+        width: min(100% - 18px, 1120px);
+      }
+
+      .topbar-inner {
+        justify-content: center;
+        text-align: center;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <p>한국폴리텍대학 창원캠퍼스 산업설비자동화과</p>
-    <h1>MSDS 자료실</h1>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span>한국폴리텍대학 창원캠퍼스</span>
+      <span>산업설비자동화과 안전자료</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">한국폴리텍대학 창원캠퍼스 산업설비자동화과</p>
+      <h1>MSDS 자료실</h1>
+      <p class="hero-desc">
+        실습실에서 사용하는 물질안전보건자료를
+        실습실별로 빠르게 검색하고 열람할 수 있습니다.
+      </p>
+    </div>
   </header>
 
   <main>
-    <section class="search-panel" aria-labelledby="search-title">
-      <label id="search-title" for="search">물질명·제품명 검색</label>
-      <input id="search" type="search" placeholder="예: 산소, 아세틸렌, 절삭유" autocomplete="off">
-      <p class="notice">자료를 선택하면 해당 물질안전보건자료(PDF)가 새 창에서 열립니다.</p>
+    <section class="search-panel">
+      <div class="search-head">
+        <label for="searchInput">물질명 또는 제품명 검색</label>
+        <span>제품명·제조사·개정일 검색 지원</span>
+      </div>
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="예: 산소, 아세틸렌, 절삭유, 용접봉"
+        autocomplete="off"
+      />
     </section>
 
-    <section class="grid" id="roomGrid" aria-label="실습실별 MSDS 목록"></section>
-    <div class="no-results" id="noResults">검색 결과가 없습니다.</div>
+    <section class="summary" aria-label="자료 현황">
+      <div class="summary-card">
+        <span class="summary-label">실습실 구분</span>
+        <span class="summary-value">6개</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">등록 자료</span>
+        <span id="totalCount" class="summary-value">0건</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-label">최근 업데이트</span>
+        <span id="latestUpdate" class="summary-value">준비 중</span>
+      </div>
+    </section>
+
+    <div class="section-title">
+      <h2>실습실별 자료</h2>
+      <p>실습실명을 누르면 목록을 접거나 펼칠 수 있습니다.</p>
+    </div>
+
+    <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 목록"></section>
+    <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
   </main>
 
   <footer>
-    자료의 최신 개정일과 제조사 정보를 확인하여 관리하십시오.
+    자료의 최신 개정일과 제조사 정보를 확인하여 관리하십시오.<br />
+    © Jung Woosuk
   </footer>
 
   <script>
-    /*
-      PDF 추가 방법
-      1. 아래 경로에 PDF를 업로드합니다.
-         예: pdf/가스용접실/산소.pdf
-      2. documents 배열에 한 줄을 추가합니다.
-         { room: "가스용접실", title: "산소", file: "pdf/가스용접실/산소.pdf", updated: "2026-08" }
-    */
     const rooms = [
       "용접실",
       "가스용접실",
@@ -187,82 +405,139 @@
     ];
 
     const documents = [
-      // 아래는 입력 예시입니다. 실제 PDF를 올린 뒤 앞의 //를 지우세요.
-      // { room: "가스용접실", title: "산소", file: "pdf/가스용접실/산소.pdf", updated: "2026-08" },
-      // { room: "가스용접실", title: "아세틸렌", file: "pdf/가스용접실/아세틸렌.pdf", updated: "2026-08" },
-      // { room: "용접실", title: "FCAW 와이어", file: "pdf/용접실/FCAW-와이어.pdf", updated: "2026-08" }
+      // 예시
+      // {
+      //   room: "가스용접실",
+      //   title: "산소",
+      //   manufacturer: "제조사명",
+      //   updated: "2026-08",
+      //   file: "pdf/가스용접실/산소.pdf"
+      // }
     ];
 
     const roomGrid = document.getElementById("roomGrid");
-    const searchInput = document.getElementById("search");
-    const noResults = document.getElementById("noResults");
+    const searchInput = document.getElementById("searchInput");
+    const noResult = document.getElementById("noResult");
+    const totalCount = document.getElementById("totalCount");
+    const latestUpdate = document.getElementById("latestUpdate");
 
-    function safeText(value) {
-      return String(value ?? "");
+    function normalize(value) {
+      return String(value ?? "").toLocaleLowerCase("ko-KR");
+    }
+
+    function refreshSummary() {
+      totalCount.textContent = `${documents.length}건`;
+
+      const updates = documents
+        .map((doc) => doc.updated)
+        .filter(Boolean)
+        .sort()
+        .reverse();
+
+      latestUpdate.textContent = updates[0] || "준비 중";
     }
 
     function render(query = "") {
-      const keyword = query.trim().toLocaleLowerCase("ko-KR");
+      const keyword = normalize(query.trim());
       roomGrid.innerHTML = "";
-      let visibleCount = 0;
+      let resultCount = 0;
 
       rooms.forEach((room) => {
         const matched = documents
           .filter((doc) => doc.room === room)
-          .filter((doc) =>
-            !keyword ||
-            `${doc.room} ${doc.title}`.toLocaleLowerCase("ko-KR").includes(keyword)
-          )
+          .filter((doc) => {
+            if (!keyword) return true;
+
+            const target = [
+              doc.room,
+              doc.title,
+              doc.manufacturer,
+              doc.updated
+            ].join(" ");
+
+            return normalize(target).includes(keyword);
+          })
           .sort((a, b) => a.title.localeCompare(b.title, "ko"));
 
         if (keyword && matched.length === 0) return;
 
-        visibleCount += matched.length || (!keyword ? 1 : 0);
+        const card = document.createElement("article");
+        card.className = "room-card";
 
-        const article = document.createElement("article");
-        article.className = "room";
+        const header = document.createElement("button");
+        header.className = "room-header";
+        header.type = "button";
+        header.setAttribute("aria-expanded", "true");
 
-        const heading = document.createElement("h2");
-        heading.textContent = room;
-        article.appendChild(heading);
+        const roomName = document.createElement("span");
+        roomName.className = "room-name";
+        roomName.textContent = room;
+
+        const count = document.createElement("span");
+        count.className = "room-count";
+        count.textContent = `${matched.length}건`;
+
+        header.append(roomName, count);
+
+        const body = document.createElement("div");
+        body.className = "room-body";
+
+        header.addEventListener("click", () => {
+          const isOpen = header.getAttribute("aria-expanded") === "true";
+          header.setAttribute("aria-expanded", String(!isOpen));
+          body.hidden = isOpen;
+        });
 
         const list = document.createElement("ul");
-        list.className = "documents";
+        list.className = "document-list";
 
         if (matched.length === 0) {
           const empty = document.createElement("li");
-          empty.className = "empty";
-          empty.textContent = "등록된 자료가 없습니다.";
+          empty.className = "empty-state";
+          empty.innerHTML = "<strong>등록된 MSDS가 없습니다.</strong><span>자료 등록 후 목록에 표시됩니다.</span>";
           list.appendChild(empty);
         } else {
           matched.forEach((doc) => {
+            resultCount += 1;
+
             const item = document.createElement("li");
             const link = document.createElement("a");
             link.href = doc.file;
             link.target = "_blank";
             link.rel = "noopener";
 
-            const title = document.createElement("span");
-            title.textContent = safeText(doc.title);
+            const name = document.createElement("span");
+            name.textContent = doc.title;
 
-            const tag = document.createElement("span");
-            tag.className = "tag";
-            tag.textContent = doc.updated ? `개정 ${safeText(doc.updated)}` : "PDF";
+            const meta = document.createElement("span");
+            meta.className = "meta";
 
-            link.append(title, tag);
+            const info = [];
+            if (doc.manufacturer) info.push(doc.manufacturer);
+            if (doc.updated) info.push(`개정 ${doc.updated}`);
+
+            meta.textContent = info.join(" · ") || "PDF";
+
+            link.append(name, meta);
             item.appendChild(link);
             list.appendChild(item);
           });
         }
 
-        article.appendChild(list);
-        roomGrid.appendChild(article);
+        body.appendChild(list);
+        card.append(header, body);
+        roomGrid.appendChild(card);
       });
 
-      noResults.style.display = keyword && visibleCount === 0 ? "block" : "none";
+      noResult.style.display =
+        keyword && resultCount === 0 ? "block" : "none";
     }
 
-    searchInput.addEventListener("input", (event) => render(event.target.value));
+    searchInput.addEventListener("input", (event) => {
+      render(event.target.value);
+    });
+
+    refreshSummary();
     render();
   </script>
 </body>
