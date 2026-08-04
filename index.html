@@ -196,8 +196,12 @@
     }
 
     .room-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       box-shadow: var(--shadow);
+    }
+
+    .room-card.is-open {
+      grid-column: 1 / -1;
     }
 
     .room-header {
@@ -206,8 +210,8 @@
       background: var(--blue-soft);
       color: var(--navy);
       padding: 18px 20px;
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
       align-items: center;
       gap: 12px;
       cursor: pointer;
@@ -249,8 +253,26 @@
       font-weight: 800;
     }
 
+    .arrow {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--navy);
+      transition: transform 0.2s ease;
+    }
+
+    .room-card.is-open .arrow {
+      transform: rotate(90deg);
+    }
+
     .room-body {
+      display: none;
       padding: 8px 18px 16px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .room-card.is-open .room-body {
+      display: block;
     }
 
     .document-list {
@@ -328,6 +350,10 @@
         grid-template-columns: 1fr;
       }
 
+      .room-card.is-open {
+        grid-column: auto;
+      }
+
       .hero {
         padding: 44px 18px 66px;
       }
@@ -394,7 +420,7 @@
 
     <div class="section-title">
       <h2>실습실별 자료</h2>
-      <p>실습실명을 누르면 목록을 접거나 펼칠 수 있습니다.</p>
+      <p>카드를 누르면 해당 실습실 자료만 펼쳐집니다.</p>
     </div>
 
     <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 목록"></section>
@@ -453,6 +479,14 @@
       latestUpdate.textContent = updates[0] || "준비 중";
     }
 
+    function closeAllCards() {
+      document.querySelectorAll(".room-card.is-open").forEach((card) => {
+        card.classList.remove("is-open");
+        const button = card.querySelector(".room-header");
+        button?.setAttribute("aria-expanded", "false");
+      });
+    }
+
     function render(query = "") {
       const keyword = normalize(query.trim());
       roomGrid.innerHTML = "";
@@ -484,7 +518,7 @@
         const header = document.createElement("button");
         header.className = "room-header";
         header.type = "button";
-        header.setAttribute("aria-expanded", "true");
+        header.setAttribute("aria-expanded", "false");
 
         const label = document.createElement("span");
         label.className = "room-label";
@@ -506,15 +540,24 @@
         count.className = "room-count";
         count.textContent = `${matched.length}건`;
 
-        header.append(label, count);
+        const arrow = document.createElement("span");
+        arrow.className = "arrow";
+        arrow.textContent = "▶";
+        arrow.setAttribute("aria-hidden", "true");
+
+        header.append(label, count, arrow);
 
         const body = document.createElement("div");
         body.className = "room-body";
 
         header.addEventListener("click", () => {
-          const isOpen = header.getAttribute("aria-expanded") === "true";
-          header.setAttribute("aria-expanded", String(!isOpen));
-          body.hidden = isOpen;
+          const wasOpen = card.classList.contains("is-open");
+          closeAllCards();
+
+          if (!wasOpen) {
+            card.classList.add("is-open");
+            header.setAttribute("aria-expanded", "true");
+          }
         });
 
         const list = document.createElement("ul");
