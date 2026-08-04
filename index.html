@@ -383,6 +383,114 @@
     }
 
 
+
+    .preview-button{
+      border:0;
+      background:#e8f1f8;
+      color:var(--navy);
+      border-radius:8px;
+      padding:8px 11px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:.84rem;
+    }
+    .preview-button:hover{background:#d9e8f3}
+    .preview-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .preview-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.70);
+      z-index:9998;
+    }
+    .preview-modal.is-open{display:flex}
+    .preview-dialog{
+      width:min(1100px,100%);
+      height:min(88vh,900px);
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.30);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .preview-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .preview-heading{
+      min-width:0;
+    }
+    .preview-heading h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.2rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .preview-heading p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+    .preview-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .preview-actions a,
+    .preview-actions button{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      font-weight:800;
+      cursor:pointer;
+      text-decoration:none;
+      font-size:.86rem;
+    }
+    .preview-open{
+      background:var(--navy);
+      color:#fff;
+    }
+    .preview-close{
+      background:#e9edf1;
+      color:#2f3a44;
+    }
+    .preview-frame-wrap{
+      flex:1;
+      min-height:0;
+      background:#e9eef3;
+    }
+    .preview-frame{
+      width:100%;
+      height:100%;
+      border:0;
+      background:#fff;
+    }
+    .preview-fallback{
+      display:none;
+      height:100%;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+      text-align:center;
+      color:var(--muted);
+    }
+
     .qr-button{
       border:0;
       background:#eef4f9;
@@ -571,6 +679,28 @@
   </main>
 
 
+
+  <div id="previewModal" class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+    <div class="preview-dialog">
+      <div class="preview-header">
+        <div class="preview-heading">
+          <h2 id="previewTitle">PDF 미리보기</h2>
+          <p id="previewSubtitle"></p>
+        </div>
+        <div class="preview-actions">
+          <a id="previewOpen" class="preview-open" href="#" target="_blank" rel="noopener">새 창에서 열기</a>
+          <button id="previewClose" class="preview-close" type="button">닫기</button>
+        </div>
+      </div>
+      <div class="preview-frame-wrap">
+        <iframe id="previewFrame" class="preview-frame" title="PDF 미리보기"></iframe>
+        <div id="previewFallback" class="preview-fallback">
+          이 브라우저에서는 PDF 미리보기를 표시하지 못했습니다. 위의 ‘새 창에서 열기’를 사용하십시오.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="qrModal" class="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qrTitle">
     <div class="qr-dialog">
       <h2 id="qrTitle">MSDS QR코드</h2>
@@ -631,6 +761,14 @@
     const favoritesSection = document.getElementById("favoritesSection");
     const favoriteGrid = document.getElementById("favoriteGrid");
     const statusBox = document.getElementById("status");
+    const previewModal = document.getElementById("previewModal");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewSubtitle = document.getElementById("previewSubtitle");
+    const previewOpen = document.getElementById("previewOpen");
+    const previewClose = document.getElementById("previewClose");
+    const previewFrame = document.getElementById("previewFrame");
+    const previewFallback = document.getElementById("previewFallback");
+
     const qrModal = document.getElementById("qrModal");
     const qrTitle = document.getElementById("qrTitle");
     const qrSubtitle = document.getElementById("qrSubtitle");
@@ -679,15 +817,25 @@
       }
       saveFavorites();
   
+
+    previewClose.addEventListener("click",closePreviewModal);
+    previewModal.addEventListener("click",event => {
+      if(event.target === previewModal) closePreviewModal();
+    });
+    previewFrame.addEventListener("error",() => {
+      previewFrame.style.display = "none";
+      previewFallback.style.display = "flex";
+    });
+
     qrClose.addEventListener("click",closeQrModal);
     qrPrint.addEventListener("click",() => window.print());
     qrModal.addEventListener("click",event => {
       if(event.target === qrModal) closeQrModal();
     });
     document.addEventListener("keydown",event => {
-      if(event.key === "Escape" && qrModal.classList.contains("is-open")){
-        closeQrModal();
-      }
+      if(event.key !== "Escape") return;
+      if(previewModal.classList.contains("is-open")) closePreviewModal();
+      if(qrModal.classList.contains("is-open")) closeQrModal();
     });
 
     updateFavoriteCount();
@@ -699,6 +847,26 @@
       favoriteCount.textContent = `${favorites.size}건`;
     }
 
+
+
+    function openPreviewModal(doc){
+      const url = absolutePdfUrl(doc.file);
+      previewTitle.textContent = doc.title;
+      previewSubtitle.textContent = `${doc.room} · PDF 미리보기`;
+      previewOpen.href = url;
+      previewFallback.style.display = "none";
+      previewFrame.style.display = "block";
+      previewFrame.src = `${url}#toolbar=1&navpanes=0&view=FitH`;
+      previewModal.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      previewClose.focus();
+    }
+
+    function closePreviewModal(){
+      previewModal.classList.remove("is-open");
+      previewFrame.src = "about:blank";
+      document.body.style.overflow = "";
+    }
 
     function absolutePdfUrl(path){
       return new URL(path, window.location.href).href;
@@ -783,6 +951,12 @@
       actionGroup.style.alignItems = "center";
       actionGroup.style.gap = "8px";
 
+      const previewButton = document.createElement("button");
+      previewButton.type = "button";
+      previewButton.className = "preview-button";
+      previewButton.textContent = "미리보기";
+      previewButton.addEventListener("click",() => openPreviewModal(doc));
+
       const qrButton = document.createElement("button");
       qrButton.type = "button";
       qrButton.className = "qr-button";
@@ -796,7 +970,7 @@
       link.rel = "noopener";
       link.textContent = "바로보기 →";
 
-      actionGroup.append(qrButton,link);
+      actionGroup.append(previewButton,qrButton,link);
       actions.append(meta,actionGroup);
       card.append(top,actions);
       return card;
@@ -862,15 +1036,25 @@
         statusBox.classList.remove("error");
 
     
+
+    previewClose.addEventListener("click",closePreviewModal);
+    previewModal.addEventListener("click",event => {
+      if(event.target === previewModal) closePreviewModal();
+    });
+    previewFrame.addEventListener("error",() => {
+      previewFrame.style.display = "none";
+      previewFallback.style.display = "flex";
+    });
+
     qrClose.addEventListener("click",closeQrModal);
     qrPrint.addEventListener("click",() => window.print());
     qrModal.addEventListener("click",event => {
       if(event.target === qrModal) closeQrModal();
     });
     document.addEventListener("keydown",event => {
-      if(event.key === "Escape" && qrModal.classList.contains("is-open")){
-        closeQrModal();
-      }
+      if(event.key !== "Escape") return;
+      if(previewModal.classList.contains("is-open")) closePreviewModal();
+      if(qrModal.classList.contains("is-open")) closeQrModal();
     });
 
     updateFavoriteCount();
@@ -985,15 +1169,25 @@
     searchInput.addEventListener("input",event => render(event.target.value));
 
 
+
+    previewClose.addEventListener("click",closePreviewModal);
+    previewModal.addEventListener("click",event => {
+      if(event.target === previewModal) closePreviewModal();
+    });
+    previewFrame.addEventListener("error",() => {
+      previewFrame.style.display = "none";
+      previewFallback.style.display = "flex";
+    });
+
     qrClose.addEventListener("click",closeQrModal);
     qrPrint.addEventListener("click",() => window.print());
     qrModal.addEventListener("click",event => {
       if(event.target === qrModal) closeQrModal();
     });
     document.addEventListener("keydown",event => {
-      if(event.key === "Escape" && qrModal.classList.contains("is-open")){
-        closeQrModal();
-      }
+      if(event.key !== "Escape") return;
+      if(previewModal.classList.contains("is-open")) closePreviewModal();
+      if(qrModal.classList.contains("is-open")) closeQrModal();
     });
 
     updateFavoriteCount();
