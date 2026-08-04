@@ -291,13 +291,32 @@
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      padding: 13px 4px;
+      padding: 14px 4px;
       color: #174f80;
       text-decoration: none;
       font-weight: 700;
     }
 
     .document-list a:hover { text-decoration: underline; }
+
+    .document-list a::before {
+      content: "PDF";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 24px;
+      margin-right: 10px;
+      border-radius: 5px;
+      background: #d9363e;
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .doc-title {
+      flex: 1;
+    }
 
     .meta {
       color: var(--muted);
@@ -342,26 +361,11 @@
     }
 
     @media (max-width: 760px) {
-      .summary {
-        grid-template-columns: 1fr;
-      }
-
-      .room-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .room-card.is-open {
-        grid-column: auto;
-      }
-
-      .hero {
-        padding: 44px 18px 66px;
-      }
-
-      main {
-        width: min(100% - 18px, 1120px);
-      }
-
+      .summary { grid-template-columns: 1fr; }
+      .room-grid { grid-template-columns: 1fr; }
+      .room-card.is-open { grid-column: auto; }
+      .hero { padding: 44px 18px 66px; }
+      main { width: min(100% - 18px, 1120px); }
       .topbar-inner {
         justify-content: center;
         text-align: center;
@@ -447,14 +451,48 @@
     ];
 
     const documents = [
-      // 예시
-      // {
-      //   room: "가스용접실",
-      //   title: "산소",
-      //   manufacturer: "제조사명",
-      //   updated: "2026-08",
-      //   file: "pdf/가스용접실/산소.pdf"
-      // }
+      {
+        room: "가스용접실",
+        title: "산소",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/산소.pdf"
+      },
+      {
+        room: "가스용접실",
+        title: "아르곤",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/아르곤.pdf"
+      },
+      {
+        room: "가스용접실",
+        title: "아세틸렌",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/아세틸렌.pdf"
+      },
+      {
+        room: "가스용접실",
+        title: "이산화탄소",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/이산화탄소.pdf"
+      },
+      {
+        room: "가스용접실",
+        title: "질소",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/질소.pdf"
+      },
+      {
+        room: "가스용접실",
+        title: "프로판",
+        manufacturer: "",
+        updated: "2026-06-11",
+        file: "pdf/가스용접실/프로판.pdf"
+      }
     ];
 
     const roomGrid = document.getElementById("roomGrid");
@@ -497,7 +535,6 @@
           .filter((doc) => doc.room === room.name)
           .filter((doc) => {
             if (!keyword) return true;
-
             const target = [
               room.name,
               room.number,
@@ -505,7 +542,6 @@
               doc.manufacturer,
               doc.updated
             ].join(" ");
-
             return normalize(target).includes(keyword);
           })
           .sort((a, b) => a.title.localeCompare(b.title, "ko"));
@@ -526,7 +562,6 @@
         const roomName = document.createElement("span");
         roomName.className = "room-name";
         roomName.textContent = room.name;
-
         label.appendChild(roomName);
 
         if (room.number) {
@@ -553,7 +588,6 @@
         header.addEventListener("click", () => {
           const wasOpen = card.classList.contains("is-open");
           closeAllCards();
-
           if (!wasOpen) {
             card.classList.add("is-open");
             header.setAttribute("aria-expanded", "true");
@@ -579,6 +613,7 @@
             link.rel = "noopener";
 
             const name = document.createElement("span");
+            name.className = "doc-title";
             name.textContent = doc.title;
 
             const meta = document.createElement("span");
