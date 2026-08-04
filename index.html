@@ -1191,6 +1191,119 @@
       }
     }
 
+  
+    /* 모바일 실습실 카드 배열 개선 */
+    @media(max-width:760px){
+      .room-grid{
+        grid-template-columns:1fr !important;
+        gap:12px;
+      }
+
+      .room-card,
+      .room-card.is-open{
+        grid-column:auto !important;
+        width:100%;
+      }
+
+      .room-header{
+        grid-template-columns:minmax(0,1fr) auto auto;
+        padding:16px 18px;
+        min-height:82px;
+      }
+
+      .room-label{
+        min-width:0;
+      }
+
+      .room-name{
+        font-size:1.05rem;
+        line-height:1.35;
+        word-break:keep-all;
+        overflow-wrap:normal;
+      }
+
+      .room-number{
+        margin-top:3px;
+        font-size:.8rem;
+        white-space:nowrap;
+      }
+
+      .room-count{
+        min-width:44px;
+        white-space:nowrap;
+      }
+
+      .arrow{
+        white-space:nowrap;
+      }
+    }
+
+  
+    /* 모바일 카드 UI 개선 V2 */
+    @media(max-width:760px){
+      .room-grid{
+        grid-template-columns:1fr !important;
+        gap:12px;
+      }
+
+      .room-card,
+      .room-card.is-open{
+        grid-column:auto !important;
+        width:100%;
+      }
+
+      .room-header{
+        position:relative;
+        display:block;
+        min-height:98px;
+        padding:16px 18px 15px;
+        text-align:left;
+      }
+
+      .room-label{
+        display:block;
+        min-width:0;
+        padding-right:96px;
+      }
+
+      .room-name{
+        display:block;
+        width:100%;
+        font-size:1.08rem;
+        line-height:1.35;
+        font-weight:800;
+        white-space:nowrap;
+        word-break:keep-all;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      .room-number{
+        display:block;
+        margin-top:10px;
+        font-size:.82rem;
+        line-height:1;
+        white-space:nowrap;
+      }
+
+      .room-count{
+        position:absolute;
+        right:42px;
+        bottom:14px;
+        min-width:46px;
+        padding:4px 10px;
+        white-space:nowrap;
+      }
+
+      .arrow{
+        position:absolute;
+        right:18px;
+        bottom:16px;
+        line-height:1;
+        white-space:nowrap;
+      }
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
