@@ -1035,6 +1035,162 @@
       font-size:.78rem;
     }
 
+  
+    /* 메인 화면 개편 */
+    main{
+      width:min(1180px,calc(100% - 28px));
+      margin:-42px auto 48px;
+    }
+
+    .content-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 250px;
+      gap:22px;
+      align-items:start;
+    }
+
+    .rooms-area{
+      min-width:0;
+    }
+
+    .side-panel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      position:sticky;
+      top:18px;
+    }
+
+    .side-status-card{
+      overflow:hidden;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .side-status-card h2{
+      margin:0;
+      padding:16px 18px;
+      color:#fff;
+      background:linear-gradient(135deg,var(--navy),var(--blue));
+      font-size:1.05rem;
+    }
+
+    .side-stat{
+      padding:16px 18px;
+      border-bottom:1px solid #edf1f4;
+    }
+
+    .side-stat .summary-label{
+      margin-bottom:3px;
+    }
+
+    .side-stat .summary-value{
+      display:block;
+      font-size:1.35rem;
+    }
+
+    .status-normal{
+      color:#287447 !important;
+      font-size:1.08rem !important;
+    }
+
+    .side-admin-button{
+      width:calc(100% - 32px);
+      margin:14px 16px 16px;
+      box-shadow:none;
+    }
+
+    .side-status-message{
+      margin:0;
+      padding:13px 14px;
+      font-size:.78rem;
+      line-height:1.5;
+      word-break:keep-all;
+    }
+
+    .bottom-search{
+      margin-top:26px;
+      margin-bottom:0;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .bottom-search .search-head label{
+      font-size:1.18rem;
+    }
+
+    .room-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .favorites-section{
+      display:none !important;
+    }
+
+    @media(max-width:900px){
+      .content-layout{
+        grid-template-columns:1fr;
+      }
+
+      .side-panel{
+        position:static;
+      }
+
+      .side-status-card{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .side-status-card h2{
+        grid-column:1 / -1;
+      }
+
+      .side-stat{
+        border-bottom:0;
+        border-right:1px solid #edf1f4;
+      }
+
+      .side-stat:nth-of-type(3){
+        border-right:0;
+      }
+
+      .side-admin-button{
+        grid-column:1 / -1;
+      }
+    }
+
+    @media(max-width:760px){
+      .content-layout{
+        display:flex;
+        flex-direction:column;
+      }
+
+      .rooms-area,
+      .side-panel{
+        width:100%;
+      }
+
+      .side-status-card{
+        display:block;
+      }
+
+      .side-stat{
+        border-right:0;
+        border-bottom:1px solid #edf1f4;
+      }
+
+      .bottom-search{
+        margin-top:20px;
+      }
+
+      .section-title{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:4px;
+      }
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -1052,61 +1208,69 @@
       <p class="eyebrow">한국폴리텍대학 창원캠퍼스 산업설비자동화과</p>
       <h1>MSDS 자료실</h1>
       <p class="hero-desc">
-        PDF를 실습실 폴더에 올리면 자료명과 등록 건수가 자동으로 반영됩니다.
+        산업설비자동화과 실습실별 물질안전보건자료(MSDS)를 검색하고 열람할 수 있습니다.
       </p>
     </div>
   </header>
 
   <main>
-    <section class="search-panel">
+    <div class="content-layout">
+      <section class="rooms-area">
+        <div class="section-title">
+          <h2>실습실별 자료</h2>
+          <p>카드를 누르면 해당 실습실 자료만 펼쳐집니다.</p>
+        </div>
+
+        <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 목록"></section>
+        <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
+      </section>
+
+      <aside class="side-panel" aria-label="자료 현황">
+        <section class="side-status-card">
+          <h2>자료 현황</h2>
+
+          <div class="side-stat">
+            <span class="summary-label">실습실 구분</span>
+            <strong class="summary-value">10개</strong>
+          </div>
+
+          <div class="side-stat">
+            <span class="summary-label">등록 자료</span>
+            <strong id="totalCount" class="summary-value">0건</strong>
+          </div>
+
+          <div class="side-stat">
+            <span class="summary-label">운영 상태</span>
+            <strong class="summary-value status-normal">● 정상</strong>
+            <span id="favoriteCount" hidden>0건</span>
+          </div>
+
+          <button id="adminOpen" class="admin-open-button side-admin-button" type="button">
+            관리 도우미
+          </button>
+        </section>
+
+        <div id="status" class="status side-status-message">
+          GitHub에서 최신 PDF 목록을 불러오는 중입니다.
+        </div>
+
+        <div class="mobile-preview-note">
+          모바일에서는 PDF 아이콘을 누르면 문서가 새 화면으로 열립니다.
+        </div>
+      </aside>
+    </div>
+
+    <section class="search-panel bottom-search">
       <div class="search-head">
-        <label for="searchInput">물질명 또는 제품명 검색</label>
+        <label for="searchInput">자료 검색</label>
         <span>한글명·영문명·화학식·실습실명·호실 검색 지원</span>
       </div>
       <input id="searchInput" type="search" placeholder="예: 산소, oxygen, O2, 가스용접실, 8-2050" autocomplete="off">
     </section>
 
-    <div id="status" class="status">GitHub에서 최신 PDF 목록을 불러오는 중입니다.</div>
-    <div class="mobile-preview-note">
-      모바일에서는 PDF 아이콘을 누르면 문서가 새 화면으로 열립니다.
-    </div>
-
-    
-    <div class="toolbar">
-      <button id="adminOpen" class="admin-open-button" type="button">관리 도우미</button>
-    </div>
-
-    <section class="summary" aria-label="자료 현황">
-      <div class="summary-card">
-        <span class="summary-label">실습실 구분</span>
-        <span class="summary-value">10개</span>
-      </div>
-      <div class="summary-card">
-        <span class="summary-label">등록 자료</span>
-        <span id="totalCount" class="summary-value">0건</span>
-      </div>
-      <div class="summary-card">
-        <span class="summary-label">운영 상태</span>
-        <span class="summary-value">정상</span>
-        <span id="favoriteCount" hidden>0건</span>
-      </div>
-    </section>
-
     <section id="favoritesSection" class="favorites-section">
-      <div class="section-title">
-        <h2>즐겨찾기</h2>
-        <p>별표를 누른 자료가 이 기기에 저장됩니다.</p>
-      </div>
       <div id="favoriteGrid" class="favorite-grid"></div>
     </section>
-
-    <div class="section-title">
-      <h2>실습실별 자료</h2>
-      <p>카드를 누르면 해당 실습실 자료만 펼쳐집니다.</p>
-    </div>
-
-    <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 목록"></section>
-    <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
   </main>
 
 
