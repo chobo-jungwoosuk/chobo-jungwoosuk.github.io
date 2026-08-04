@@ -1,375 +1,327 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="한국폴리텍대학 창원캠퍼스 산업설비자동화과 MSDS 자료실" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="한국폴리텍대학 창원캠퍼스 산업설비자동화과 MSDS 자료실">
   <title>산업설비자동화과 MSDS 자료실</title>
 
   <style>
-    :root {
-      --navy: #123d6a;
-      --blue: #1f5f99;
-      --blue-2: #2c74ad;
-      --blue-soft: #edf4fa;
-      --bg: #f3f6f9;
-      --card: #ffffff;
-      --line: #d8e2ea;
-      --text: #1e2933;
-      --muted: #66727e;
-      --shadow: 0 10px 28px rgba(20, 55, 88, 0.10);
-      --shadow-soft: 0 4px 14px rgba(20, 55, 88, 0.06);
-      --focus: #ffbf47;
+    :root{
+      --navy:#123d6a;
+      --blue:#1f5f99;
+      --blue2:#2c74ad;
+      --soft:#edf4fa;
+      --bg:#f3f6f9;
+      --card:#fff;
+      --line:#d8e2ea;
+      --text:#1e2933;
+      --muted:#66727e;
+      --shadow:0 10px 28px rgba(20,55,88,.10);
+      --shadow-soft:0 4px 14px rgba(20,55,88,.06);
+      --focus:#ffbf47;
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Noto Sans KR","Malgun Gothic",Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      line-height:1.6;
     }
 
-    .topbar {
-      background: #0f2f50;
-      color: rgba(255,255,255,0.88);
-      font-size: 0.86rem;
+    .topbar{
+      background:#0f2f50;
+      color:rgba(255,255,255,.88);
+      font-size:.86rem;
+    }
+    .topbar-inner{
+      width:min(1120px,calc(100% - 28px));
+      margin:0 auto;
+      padding:9px 0;
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
     }
 
-    .topbar-inner {
-      width: min(1120px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 9px 0;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .hero {
+    .hero{
       background:
-        radial-gradient(circle at 82% 18%, rgba(255,255,255,0.10), transparent 28%),
-        linear-gradient(135deg, var(--navy), var(--blue-2));
-      color: white;
-      padding: 58px 20px 78px;
-      text-align: center;
+        radial-gradient(circle at 82% 18%,rgba(255,255,255,.10),transparent 28%),
+        linear-gradient(135deg,var(--navy),var(--blue2));
+      color:#fff;
+      padding:58px 20px 78px;
+      text-align:center;
+    }
+    .hero-inner{width:min(980px,100%);margin:0 auto}
+    .eyebrow{
+      margin:0 0 10px;
+      font-size:clamp(.95rem,2.2vw,1.12rem);
+      font-weight:700;
+      opacity:.95;
+    }
+    .hero h1{
+      margin:0;
+      font-size:clamp(2.5rem,6vw,4.2rem);
+      letter-spacing:-.05em;
+      line-height:1.15;
+    }
+    .hero-desc{
+      max-width:680px;
+      margin:18px auto 0;
+      font-size:clamp(.95rem,2vw,1.06rem);
+      opacity:.92;
     }
 
-    .hero-inner {
-      width: min(980px, 100%);
-      margin: 0 auto;
+    main{
+      width:min(1120px,calc(100% - 28px));
+      margin:-42px auto 48px;
     }
 
-    .eyebrow {
-      margin: 0 0 10px;
-      font-size: clamp(0.95rem, 2.2vw, 1.12rem);
-      font-weight: 700;
-      opacity: 0.95;
+    .search-panel{
+      background:var(--card);
+      border-radius:18px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(216,226,234,.9);
+      margin-bottom:24px;
+    }
+    .search-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:16px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .search-head label{
+      font-size:1.08rem;
+      font-weight:800;
+      color:var(--navy);
+    }
+    .search-head span{
+      color:var(--muted);
+      font-size:.87rem;
+    }
+    .search-panel input{
+      width:100%;
+      padding:15px 17px;
+      border:2px solid var(--line);
+      border-radius:12px;
+      font-size:1rem;
+      outline:none;
+      background:#fff;
+    }
+    .search-panel input:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 4px rgba(31,95,153,.12);
     }
 
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(2.5rem, 6vw, 4.2rem);
-      letter-spacing: -0.05em;
-      line-height: 1.15;
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:22px;
+    }
+    .summary-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:17px 18px;
+      box-shadow:var(--shadow-soft);
+    }
+    .summary-label{
+      display:block;
+      color:var(--muted);
+      font-size:.84rem;
+      margin-bottom:4px;
+    }
+    .summary-value{
+      color:var(--navy);
+      font-size:1.3rem;
+      font-weight:800;
     }
 
-    .hero-desc {
-      max-width: 680px;
-      margin: 18px auto 0;
-      font-size: clamp(0.95rem, 2vw, 1.06rem);
-      opacity: 0.92;
+    .section-title{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:16px;
+      margin:0 0 14px;
+    }
+    .section-title h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .section-title p{
+      margin:0;
+      color:var(--muted);
+      font-size:.9rem;
     }
 
-    main {
-      width: min(1120px, calc(100% - 28px));
-      margin: -42px auto 48px;
+    .room-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+    .room-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .room-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+    .room-card.is-open{grid-column:1 / -1}
+
+    .room-header{
+      width:100%;
+      border:0;
+      background:var(--soft);
+      color:var(--navy);
+      padding:18px 20px;
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      text-align:left;
+    }
+    .room-header:hover{background:#e4eff8}
+    .room-header:focus{
+      outline:3px solid var(--focus);
+      outline-offset:-3px;
     }
 
-    .search-panel {
-      background: var(--card);
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(216, 226, 234, 0.9);
-      margin-bottom: 24px;
+    .room-label{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .room-name{
+      font-size:1.16rem;
+      font-weight:800;
+    }
+    .room-number{
+      color:var(--muted);
+      font-size:.84rem;
+      font-weight:700;
+    }
+    .room-count{
+      min-width:42px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:var(--navy);
+      color:#fff;
+      text-align:center;
+      font-size:.8rem;
+      font-weight:800;
+    }
+    .arrow{
+      font-size:1rem;
+      font-weight:900;
+      color:var(--navy);
+      transition:transform .2s ease;
+    }
+    .room-card.is-open .arrow{transform:rotate(90deg)}
+
+    .room-body{
+      display:none;
+      padding:8px 18px 16px;
+      border-top:1px solid var(--line);
+      background:#fff;
+    }
+    .room-card.is-open .room-body{display:block}
+
+    .document-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+    .document-list li{
+      border-bottom:1px solid #edf1f4;
+    }
+    .document-list li:last-child{border-bottom:0}
+    .document-list a{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 4px;
+      color:#174f80;
+      text-decoration:none;
+      font-weight:700;
+    }
+    .document-list a:hover{text-decoration:underline}
+    .pdf-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:38px;
+      height:24px;
+      border-radius:5px;
+      background:#d9363e;
+      color:#fff;
+      font-size:.7rem;
+      font-weight:800;
+      flex:0 0 auto;
+    }
+    .doc-title{flex:1}
+    .meta{
+      color:var(--muted);
+      font-size:.78rem;
+      font-weight:500;
+      flex:0 0 auto;
     }
 
-    .search-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
+    .empty-state{
+      text-align:center;
+      color:var(--muted);
+      padding:23px 10px 18px;
+    }
+    .empty-state strong{
+      display:block;
+      color:#45515c;
+      margin-bottom:4px;
+      font-size:.95rem;
+    }
+    .empty-state span{font-size:.85rem}
+
+    .no-result{
+      display:none;
+      margin-top:20px;
+      padding:28px;
+      text-align:center;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      color:var(--muted);
     }
 
-    .search-head label {
-      font-size: 1.08rem;
-      font-weight: 800;
-      color: var(--navy);
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:.84rem;
+      padding:12px 20px 30px;
     }
 
-    .search-head span {
-      color: var(--muted);
-      font-size: 0.87rem;
-    }
-
-    .search-panel input {
-      width: 100%;
-      padding: 15px 17px;
-      border: 2px solid var(--line);
-      border-radius: 12px;
-      font-size: 1rem;
-      outline: none;
-      background: #fff;
-    }
-
-    .search-panel input:focus {
-      border-color: var(--blue);
-      box-shadow: 0 0 0 4px rgba(31, 95, 153, 0.12);
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 22px;
-    }
-
-    .summary-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 17px 18px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .summary-label {
-      display: block;
-      color: var(--muted);
-      font-size: 0.84rem;
-      margin-bottom: 4px;
-    }
-
-    .summary-value {
-      color: var(--navy);
-      font-size: 1.3rem;
-      font-weight: 800;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 0 0 14px;
-    }
-
-    .section-title h2 {
-      margin: 0;
-      color: var(--navy);
-      font-size: 1.35rem;
-    }
-
-    .section-title p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .room-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .room-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .room-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .room-card.is-open {
-      grid-column: 1 / -1;
-    }
-
-    .room-header {
-      width: 100%;
-      border: 0;
-      background: var(--blue-soft);
-      color: var(--navy);
-      padding: 18px 20px;
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .room-header:hover { background: #e4eff8; }
-
-    .room-header:focus {
-      outline: 3px solid var(--focus);
-      outline-offset: -3px;
-    }
-
-    .room-label {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .room-name {
-      font-size: 1.16rem;
-      font-weight: 800;
-    }
-
-    .room-number {
-      color: var(--muted);
-      font-size: 0.84rem;
-      font-weight: 700;
-    }
-
-    .room-count {
-      min-width: 42px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: var(--navy);
-      color: white;
-      text-align: center;
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-
-    .arrow {
-      font-size: 1rem;
-      font-weight: 900;
-      color: var(--navy);
-      transition: transform 0.2s ease;
-    }
-
-    .room-card.is-open .arrow {
-      transform: rotate(90deg);
-    }
-
-    .room-body {
-      display: none;
-      padding: 8px 18px 16px;
-      border-top: 1px solid var(--line);
-      background: #fff;
-    }
-
-    .room-card.is-open .room-body {
-      display: block;
-    }
-
-    .document-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .document-list li {
-      border-bottom: 1px solid #edf1f4;
-    }
-
-    .document-list li:last-child { border-bottom: 0; }
-
-    .document-list a {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 4px;
-      color: #174f80;
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    .document-list a:hover { text-decoration: underline; }
-
-    .document-list a::before {
-      content: "PDF";
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 38px;
-      height: 24px;
-      margin-right: 10px;
-      border-radius: 5px;
-      background: #d9363e;
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 800;
-    }
-
-    .doc-title {
-      flex: 1;
-    }
-
-    .meta {
-      color: var(--muted);
-      font-size: 0.78rem;
-      font-weight: 500;
-      flex: 0 0 auto;
-    }
-
-    .empty-state {
-      text-align: center;
-      color: var(--muted);
-      padding: 23px 10px 18px;
-    }
-
-    .empty-state strong {
-      display: block;
-      color: #45515c;
-      margin-bottom: 4px;
-      font-size: 0.95rem;
-    }
-
-    .empty-state span {
-      font-size: 0.85rem;
-    }
-
-    .no-result {
-      display: none;
-      margin-top: 20px;
-      padding: 28px;
-      text-align: center;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      color: var(--muted);
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.84rem;
-      padding: 12px 20px 30px;
-    }
-
-    @media (max-width: 760px) {
-      .summary { grid-template-columns: 1fr; }
-      .room-grid { grid-template-columns: 1fr; }
-      .room-card.is-open { grid-column: auto; }
-      .hero { padding: 44px 18px 66px; }
-      main { width: min(100% - 18px, 1120px); }
-      .topbar-inner {
-        justify-content: center;
-        text-align: center;
+    @media(max-width:760px){
+      .summary{grid-template-columns:1fr}
+      .room-grid{grid-template-columns:1fr}
+      .room-card.is-open{grid-column:auto}
+      .hero{padding:44px 18px 66px}
+      main{width:min(100% - 18px,1120px)}
+      .topbar-inner{
+        justify-content:center;
+        text-align:center;
       }
+      .document-list a{align-items:flex-start}
+      .meta{white-space:nowrap}
     }
   </style>
 </head>
@@ -387,8 +339,7 @@
       <p class="eyebrow">한국폴리텍대학 창원캠퍼스 산업설비자동화과</p>
       <h1>MSDS 자료실</h1>
       <p class="hero-desc">
-        실습실에서 사용하는 물질안전보건자료를
-        실습실별로 빠르게 검색하고 열람할 수 있습니다.
+        실습실에서 사용하는 물질안전보건자료를 실습실별로 빠르게 검색하고 열람할 수 있습니다.
       </p>
     </div>
   </header>
@@ -399,12 +350,7 @@
         <label for="searchInput">물질명 또는 제품명 검색</label>
         <span>제품명·제조사·개정일 검색 지원</span>
       </div>
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="예: 산소, 아세틸렌, 절삭유, 용접봉"
-        autocomplete="off"
-      />
+      <input id="searchInput" type="search" placeholder="예: 산소, 아세틸렌, 절삭유, 용접봉" autocomplete="off">
     </section>
 
     <section class="summary" aria-label="자료 현황">
@@ -432,7 +378,7 @@
   </main>
 
   <footer>
-    자료의 최신 개정일과 제조사 정보를 확인하여 관리하십시오.<br />
+    자료의 최신 개정일과 제조사 정보를 확인하여 관리하십시오.<br>
     © Jung Woosuk
   </footer>
 
@@ -451,48 +397,12 @@
     ];
 
     const documents = [
-      {
-        room: "가스용접실",
-        title: "산소",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/산소.pdf"
-      },
-      {
-        room: "가스용접실",
-        title: "아르곤",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/아르곤.pdf"
-      },
-      {
-        room: "가스용접실",
-        title: "아세틸렌",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/아세틸렌.pdf"
-      },
-      {
-        room: "가스용접실",
-        title: "이산화탄소",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/이산화탄소.pdf"
-      },
-      {
-        room: "가스용접실",
-        title: "질소",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/질소.pdf"
-      },
-      {
-        room: "가스용접실",
-        title: "프로판",
-        manufacturer: "",
-        updated: "2026-06-11",
-        file: "pdf/가스용접실/프로판.pdf"
-      }
+      { room:"가스용접실", title:"산소", updated:"2026-08-04", file:"pdf/가스용접실/산소.pdf" },
+      { room:"가스용접실", title:"아르곤", updated:"2026-08-04", file:"pdf/가스용접실/아르곤.pdf" },
+      { room:"가스용접실", title:"아세틸렌", updated:"2026-08-04", file:"pdf/가스용접실/아세틸렌.pdf" },
+      { room:"가스용접실", title:"이산화탄소", updated:"2026-08-04", file:"pdf/가스용접실/이산화탄소.pdf" },
+      { room:"가스용접실", title:"질소", updated:"2026-08-04", file:"pdf/가스용접실/질소.pdf" },
+      { room:"가스용접실", title:"프로판", updated:"2026-08-04", file:"pdf/가스용접실/프로판.pdf" }
     ];
 
     const roomGrid = document.getElementById("roomGrid");
@@ -501,52 +411,39 @@
     const totalCount = document.getElementById("totalCount");
     const latestUpdate = document.getElementById("latestUpdate");
 
-    function normalize(value) {
+    function normalize(value){
       return String(value ?? "").toLocaleLowerCase("ko-KR");
     }
 
-    function refreshSummary() {
+    function refreshSummary(){
       totalCount.textContent = `${documents.length}건`;
-
-      const updates = documents
-        .map((doc) => doc.updated)
-        .filter(Boolean)
-        .sort()
-        .reverse();
-
+      const updates = documents.map(doc => doc.updated).filter(Boolean).sort().reverse();
       latestUpdate.textContent = updates[0] || "준비 중";
     }
 
-    function closeAllCards() {
-      document.querySelectorAll(".room-card.is-open").forEach((card) => {
+    function closeAllCards(){
+      document.querySelectorAll(".room-card.is-open").forEach(card => {
         card.classList.remove("is-open");
-        const button = card.querySelector(".room-header");
-        button?.setAttribute("aria-expanded", "false");
+        card.querySelector(".room-header")?.setAttribute("aria-expanded","false");
       });
     }
 
-    function render(query = "") {
+    function render(query=""){
       const keyword = normalize(query.trim());
       roomGrid.innerHTML = "";
-      let resultCount = 0;
+      let visibleDocs = 0;
 
-      rooms.forEach((room) => {
-        const matched = documents
-          .filter((doc) => doc.room === room.name)
-          .filter((doc) => {
-            if (!keyword) return true;
-            const target = [
-              room.name,
-              room.number,
-              doc.title,
-              doc.manufacturer,
-              doc.updated
-            ].join(" ");
+      rooms.forEach(room => {
+        const roomDocs = documents
+          .filter(doc => doc.room === room.name)
+          .filter(doc => {
+            if(!keyword) return true;
+            const target = [room.name, room.number, doc.title, doc.updated].join(" ");
             return normalize(target).includes(keyword);
           })
-          .sort((a, b) => a.title.localeCompare(b.title, "ko"));
+          .sort((a,b) => a.title.localeCompare(b.title,"ko"));
 
-        if (keyword && matched.length === 0) return;
+        if(keyword && roomDocs.length === 0) return;
 
         const card = document.createElement("article");
         card.className = "room-card";
@@ -554,95 +451,90 @@
         const header = document.createElement("button");
         header.className = "room-header";
         header.type = "button";
-        header.setAttribute("aria-expanded", "false");
+        header.setAttribute("aria-expanded","false");
 
         const label = document.createElement("span");
         label.className = "room-label";
 
-        const roomName = document.createElement("span");
-        roomName.className = "room-name";
-        roomName.textContent = room.name;
-        label.appendChild(roomName);
+        const name = document.createElement("span");
+        name.className = "room-name";
+        name.textContent = room.name;
+        label.appendChild(name);
 
-        if (room.number) {
-          const roomNumber = document.createElement("span");
-          roomNumber.className = "room-number";
-          roomNumber.textContent = room.number;
-          label.appendChild(roomNumber);
+        if(room.number){
+          const number = document.createElement("span");
+          number.className = "room-number";
+          number.textContent = room.number;
+          label.appendChild(number);
         }
 
         const count = document.createElement("span");
         count.className = "room-count";
-        count.textContent = `${matched.length}건`;
+        count.textContent = `${roomDocs.length}건`;
 
         const arrow = document.createElement("span");
         arrow.className = "arrow";
         arrow.textContent = "▶";
-        arrow.setAttribute("aria-hidden", "true");
+        arrow.setAttribute("aria-hidden","true");
 
-        header.append(label, count, arrow);
+        header.append(label,count,arrow);
 
         const body = document.createElement("div");
         body.className = "room-body";
 
-        header.addEventListener("click", () => {
+        header.addEventListener("click",() => {
           const wasOpen = card.classList.contains("is-open");
           closeAllCards();
-          if (!wasOpen) {
+          if(!wasOpen){
             card.classList.add("is-open");
-            header.setAttribute("aria-expanded", "true");
+            header.setAttribute("aria-expanded","true");
           }
         });
 
         const list = document.createElement("ul");
         list.className = "document-list";
 
-        if (matched.length === 0) {
+        if(roomDocs.length === 0){
           const empty = document.createElement("li");
           empty.className = "empty-state";
           empty.innerHTML = "<strong>등록된 MSDS가 없습니다.</strong><span>자료 등록 후 목록에 표시됩니다.</span>";
           list.appendChild(empty);
-        } else {
-          matched.forEach((doc) => {
-            resultCount += 1;
-
+        }else{
+          roomDocs.forEach(doc => {
+            visibleDocs += 1;
             const item = document.createElement("li");
             const link = document.createElement("a");
             link.href = doc.file;
             link.target = "_blank";
             link.rel = "noopener";
 
-            const name = document.createElement("span");
-            name.className = "doc-title";
-            name.textContent = doc.title;
+            const badge = document.createElement("span");
+            badge.className = "pdf-badge";
+            badge.textContent = "PDF";
+
+            const title = document.createElement("span");
+            title.className = "doc-title";
+            title.textContent = doc.title;
 
             const meta = document.createElement("span");
             meta.className = "meta";
+            meta.textContent = doc.updated ? `등록 ${doc.updated}` : "PDF";
 
-            const info = [];
-            if (doc.manufacturer) info.push(doc.manufacturer);
-            if (doc.updated) info.push(`개정 ${doc.updated}`);
-
-            meta.textContent = info.join(" · ") || "PDF";
-
-            link.append(name, meta);
+            link.append(badge,title,meta);
             item.appendChild(link);
             list.appendChild(item);
           });
         }
 
         body.appendChild(list);
-        card.append(header, body);
+        card.append(header,body);
         roomGrid.appendChild(card);
       });
 
-      noResult.style.display =
-        keyword && resultCount === 0 ? "block" : "none";
+      noResult.style.display = keyword && visibleDocs === 0 ? "block" : "none";
     }
 
-    searchInput.addEventListener("input", (event) => {
-      render(event.target.value);
-    });
+    searchInput.addEventListener("input",event => render(event.target.value));
 
     refreshSummary();
     render();
