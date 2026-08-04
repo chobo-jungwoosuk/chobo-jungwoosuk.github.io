@@ -384,6 +384,17 @@
 
 
 
+    .mobile-preview-note{
+      display:none;
+      margin:0 0 16px;
+      padding:11px 14px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
     .preview-button{
       border:0;
       background:#e8f1f8;
@@ -603,6 +614,7 @@
     }
 
     @media(max-width:760px){
+      .mobile-preview-note{display:block}
       .summary{grid-template-columns:1fr}
       .room-grid,.favorite-grid,.document-grid{grid-template-columns:1fr}
       .room-card.is-open{grid-column:auto}
@@ -645,6 +657,9 @@
     </section>
 
     <div id="status" class="status">GitHub에서 최신 PDF 목록을 불러오는 중입니다.</div>
+    <div class="mobile-preview-note">
+      모바일에서는 브라우저 제한으로 페이지 안 미리보기가 지원되지 않을 수 있어, PDF가 새 화면으로 열립니다.
+    </div>
 
     <section class="summary" aria-label="자료 현황">
       <div class="summary-card">
@@ -818,6 +833,13 @@
       saveFavorites();
   
 
+    function updatePreviewButtonLabels(){
+      const mobile = isMobilePreviewEnvironment();
+      document.querySelectorAll(".preview-button").forEach(button => {
+        button.textContent = mobile ? "PDF 열기" : "미리보기";
+      });
+    }
+
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
       if(event.target === previewModal) closePreviewModal();
@@ -849,8 +871,20 @@
 
 
 
+    function isMobilePreviewEnvironment(){
+      return window.matchMedia("(max-width: 760px)").matches ||
+        window.matchMedia("(pointer: coarse)").matches ||
+        /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+    }
+
     function openPreviewModal(doc){
       const url = absolutePdfUrl(doc.file);
+
+      if(isMobilePreviewEnvironment()){
+        window.open(url,"_blank","noopener");
+        return;
+      }
+
       previewTitle.textContent = doc.title;
       previewSubtitle.textContent = `${doc.room} · PDF 미리보기`;
       previewOpen.href = url;
@@ -1037,6 +1071,13 @@
 
     
 
+    function updatePreviewButtonLabels(){
+      const mobile = isMobilePreviewEnvironment();
+      document.querySelectorAll(".preview-button").forEach(button => {
+        button.textContent = mobile ? "PDF 열기" : "미리보기";
+      });
+    }
+
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
       if(event.target === previewModal) closePreviewModal();
@@ -1164,11 +1205,21 @@
 
       noResult.style.display =
         keyword && visibleDocs === 0 ? "block" : "none";
+
+      updatePreviewButtonLabels();
     }
 
     searchInput.addEventListener("input",event => render(event.target.value));
+    window.addEventListener("resize",updatePreviewButtonLabels);
 
 
+
+    function updatePreviewButtonLabels(){
+      const mobile = isMobilePreviewEnvironment();
+      document.querySelectorAll(".preview-button").forEach(button => {
+        button.textContent = mobile ? "PDF 열기" : "미리보기";
+      });
+    }
 
     previewClose.addEventListener("click",closePreviewModal);
     previewModal.addEventListener("click",event => {
