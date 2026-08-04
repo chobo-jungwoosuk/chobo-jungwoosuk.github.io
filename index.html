@@ -221,9 +221,21 @@
       outline-offset: -3px;
     }
 
+    .room-label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
     .room-name {
-      font-size: 1.2rem;
+      font-size: 1.16rem;
       font-weight: 800;
+    }
+
+    .room-number {
+      color: var(--muted);
+      font-size: 0.84rem;
+      font-weight: 700;
     }
 
     .room-count {
@@ -368,7 +380,7 @@
     <section class="summary" aria-label="자료 현황">
       <div class="summary-card">
         <span class="summary-label">실습실 구분</span>
-        <span class="summary-value">6개</span>
+        <span class="summary-value">10개</span>
       </div>
       <div class="summary-card">
         <span class="summary-label">등록 자료</span>
@@ -396,12 +408,16 @@
 
   <script>
     const rooms = [
-      "용접실",
-      "가스용접실",
-      "배관실습실",
-      "X-선실",
-      "자동화실습실",
-      "기타"
+      { name: "용접실습실", number: "8-1060" },
+      { name: "특수용접실", number: "8-1080" },
+      { name: "전기용접실", number: "8-1090" },
+      { name: "가스용접실", number: "8-2050" },
+      { name: "조선인력양성실습실", number: "8-2060" },
+      { name: "X-RAY실", number: "8-2070" },
+      { name: "배관실습실", number: "8-2090" },
+      { name: "설비자동화실", number: "8-3150" },
+      { name: "설비CAD실", number: "8-4120" },
+      { name: "공용", number: "" }
     ];
 
     const documents = [
@@ -444,12 +460,13 @@
 
       rooms.forEach((room) => {
         const matched = documents
-          .filter((doc) => doc.room === room)
+          .filter((doc) => doc.room === room.name)
           .filter((doc) => {
             if (!keyword) return true;
 
             const target = [
-              doc.room,
+              room.name,
+              room.number,
               doc.title,
               doc.manufacturer,
               doc.updated
@@ -469,15 +486,27 @@
         header.type = "button";
         header.setAttribute("aria-expanded", "true");
 
+        const label = document.createElement("span");
+        label.className = "room-label";
+
         const roomName = document.createElement("span");
         roomName.className = "room-name";
-        roomName.textContent = room;
+        roomName.textContent = room.name;
+
+        label.appendChild(roomName);
+
+        if (room.number) {
+          const roomNumber = document.createElement("span");
+          roomNumber.className = "room-number";
+          roomNumber.textContent = room.number;
+          label.appendChild(roomNumber);
+        }
 
         const count = document.createElement("span");
         count.className = "room-count";
         count.textContent = `${matched.length}건`;
 
-        header.append(roomName, count);
+        header.append(label, count);
 
         const body = document.createElement("div");
         body.className = "room-body";
