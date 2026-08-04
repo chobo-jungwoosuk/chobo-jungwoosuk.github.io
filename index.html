@@ -180,7 +180,7 @@
     }
 
     .favorites-section{
-      display:none;
+      display:none !important;
       margin-bottom:24px;
     }
     .favorites-section.is-visible{display:block}
@@ -951,6 +951,90 @@
         text-align:center;
       }
     }
+
+    /* 최종 배포 UI: PDF 아이콘 클릭 방식 */
+    .document-card{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      padding:20px 16px 16px;
+      box-shadow:var(--shadow-soft);
+      text-align:center;
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .document-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+    .pdf-open-button{
+      display:flex;
+      width:100%;
+      flex-direction:column;
+      align-items:center;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:0;
+      color:inherit;
+    }
+    .pdf-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:4px;
+      border-radius:10px;
+    }
+    .pdf-large-icon{
+      width:72px;
+      height:84px;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding-bottom:12px;
+      border-radius:9px;
+      background:#d9363e;
+      color:#fff;
+      font-size:.9rem;
+      font-weight:900;
+      letter-spacing:.04em;
+      box-shadow:0 8px 18px rgba(217,54,62,.20);
+      margin-bottom:14px;
+    }
+    .pdf-large-icon::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:22px;
+      height:22px;
+      background:linear-gradient(225deg,#fff 0 49%,#ef9da1 50% 100%);
+      border-top-right-radius:9px;
+    }
+    .pdf-open-button .doc-title{
+      margin:0;
+      color:var(--navy);
+      font-size:1.02rem;
+      font-weight:800;
+      word-break:break-word;
+    }
+    .pdf-open-button .doc-room{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+    .pdf-open-button .title-clean-note{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+    .final-doc-meta{
+      display:block;
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
@@ -984,7 +1068,7 @@
 
     <div id="status" class="status">GitHub에서 최신 PDF 목록을 불러오는 중입니다.</div>
     <div class="mobile-preview-note">
-      모바일에서는 브라우저 제한으로 페이지 안 미리보기가 지원되지 않을 수 있어, PDF가 새 화면으로 열립니다.
+      모바일에서는 PDF 아이콘을 누르면 문서가 새 화면으로 열립니다.
     </div>
 
     
@@ -1002,8 +1086,9 @@
         <span id="totalCount" class="summary-value">0건</span>
       </div>
       <div class="summary-card">
-        <span class="summary-label">즐겨찾기</span>
-        <span id="favoriteCount" class="summary-value">0건</span>
+        <span class="summary-label">운영 상태</span>
+        <span class="summary-value">정상</span>
+        <span id="favoriteCount" hidden>0건</span>
       </div>
     </section>
 
@@ -1351,15 +1436,15 @@
       const card = document.createElement("article");
       card.className = "document-card";
 
-      const top = document.createElement("div");
-      top.className = "document-top";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "pdf-open-button";
+      button.setAttribute("aria-label", `${doc.title} PDF 열기`);
+      button.addEventListener("click",() => openPreviewModal(doc));
 
-      const badge = document.createElement("span");
-      badge.className = "pdf-badge";
-      badge.textContent = "PDF";
-
-      const main = document.createElement("div");
-      main.className = "doc-main";
+      const icon = document.createElement("span");
+      icon.className = "pdf-large-icon";
+      icon.textContent = "PDF";
 
       const title = document.createElement("h3");
       title.className = "doc-title";
@@ -1369,75 +1454,23 @@
       room.className = "doc-room";
       room.textContent = doc.room;
 
-      main.append(title,room);
+      button.append(icon,title,room);
 
       if(doc.rawTitle && doc.rawTitle !== doc.title){
         const cleanNote = document.createElement("span");
         cleanNote.className = "title-clean-note";
         cleanNote.textContent = `원본 파일명: ${doc.rawTitle}`;
-        main.appendChild(cleanNote);
+        button.appendChild(cleanNote);
       }
 
-      const favoriteButton = document.createElement("button");
-      favoriteButton.type = "button";
-      favoriteButton.className = "favorite-button";
-      favoriteButton.classList.toggle("is-favorite", favorites.has(doc.file));
-      favoriteButton.textContent = favorites.has(doc.file) ? "★" : "☆";
-      favoriteButton.setAttribute(
-        "aria-label",
-        favorites.has(doc.file) ? "즐겨찾기 해제" : "즐겨찾기 추가"
-      );
-      favoriteButton.addEventListener("click",() => toggleFavorite(doc.file));
-
-      top.append(badge,main,favoriteButton);
-
-      const actions = document.createElement("div");
-      actions.className = "document-actions";
-
       const meta = document.createElement("span");
-      meta.className = "doc-meta";
+      meta.className = "final-doc-meta";
       meta.textContent = doc.size
         ? `${Math.max(1,Math.round(doc.size / 1024))} KB`
         : "PDF";
 
-      const actionGroup = document.createElement("div");
-      actionGroup.style.display = "flex";
-      actionGroup.style.alignItems = "center";
-      actionGroup.style.gap = "8px";
-
-      const previewButton = document.createElement("button");
-      previewButton.type = "button";
-      previewButton.className = "preview-button";
-      previewButton.textContent = "미리보기";
-      previewButton.addEventListener("click",() => openPreviewModal(doc));
-
-      const qrButton = document.createElement("button");
-      qrButton.type = "button";
-      qrButton.className = "qr-button";
-      qrButton.textContent = "QR 보기";
-      qrButton.addEventListener("click",() => openQrModal(doc));
-
-      const link = document.createElement("a");
-      link.className = "open-link";
-      link.href = doc.file;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = "바로보기 →";
-
-      actionGroup.append(previewButton,qrButton,link);
-      actions.append(meta,actionGroup);
-      card.append(top,actions);
+      card.append(button,meta);
       return card;
-    }
-
-    function renderFavorites(){
-      const favoriteDocs = documents.filter(doc => favorites.has(doc.file));
-      favoriteGrid.innerHTML = "";
-      favoritesSection.classList.toggle("is-visible", favoriteDocs.length > 0);
-
-      favoriteDocs
-        .sort((a,b) => a.title.localeCompare(b.title,"ko"))
-        .forEach(doc => favoriteGrid.appendChild(createDocumentCard(doc)));
     }
 
     async function fetchJson(url){
