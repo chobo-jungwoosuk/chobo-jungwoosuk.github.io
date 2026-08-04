@@ -1196,6 +1196,7 @@
     const REPO = "chobo-jungwoosuk.github.io";
     const BRANCH = "main";
     const TREE_API = `https://api.github.com/repos/${OWNER}/${REPO}/git/trees/${BRANCH}?recursive=1`;
+    const CACHE_KEY = "msdsDocumentCacheV1";
 
     const rooms = [
       { name:"용접실습실", number:"8-1060" },
@@ -1618,6 +1619,12 @@
         ));
         saveFavorites();
 
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          savedAt: new Date().toISOString(),
+          documents,
+          repositoryFiles
+        }));
+
         totalCount.textContent = `${documents.length}건`;
         statusBox.textContent =
           `최신 PDF 목록을 자동으로 불러왔습니다. 현재 ${documents.length}건이 등록되어 있습니다.`;
@@ -1665,8 +1672,41 @@
         render(searchInput.value);
       }catch(error){
         console.error(error);
+
+        try{
+          const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || "null");
+
+          if(cached && Array.isArray(cached.documents) && cached.documents.length > 0){
+            documents = cached.documents;
+            repositoryFiles = Array.isArray(cached.repositoryFiles)
+              ? cached.repositoryFiles
+              : [];
+
+            totalCount.textContent = `${documents.length}건`;
+
+            const savedDate = cached.savedAt
+              ? new Intl.DateTimeFormat("ko-KR",{
+                  year:"numeric",
+                  month:"2-digit",
+                  day:"2-digit",
+                  hour:"2-digit",
+                  minute:"2-digit"
+                }).format(new Date(cached.savedAt))
+              : "이전";
+
+            statusBox.textContent =
+              `GitHub 요청이 일시적으로 제한되어 ${savedDate}에 저장한 목록 ${documents.length}건을 표시하고 있습니다.`;
+            statusBox.classList.remove("error");
+
+            render(searchInput.value);
+            return;
+          }
+        }catch(cacheError){
+          console.error(cacheError);
+        }
+
         statusBox.textContent =
-          "PDF 자동 목록을 불러오지 못했습니다. 잠시 후 새로고침하거나 GitHub 저장소 공개 상태를 확인하십시오.";
+          "GitHub에서 PDF 목록을 불러오지 못했습니다. 잠시 후 다시 새로고침하십시오.";
         statusBox.classList.add("error");
         render(searchInput.value);
       }
