@@ -1397,6 +1397,71 @@
       }
     }
 
+  
+    /* V1.2 Final: 본문 제목과 안내문 가독성 개선 */
+    main{
+      width:min(1180px,calc(100% - 28px)) !important;
+      margin:28px auto 48px !important;
+    }
+
+    .content-layout{
+      align-items:start !important;
+    }
+
+    .rooms-area{
+      min-width:0;
+      background:#ffffff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:20px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .section-title{
+      margin:0 0 16px !important;
+    }
+
+    .section-title h2{
+      color:#153e75 !important;
+      text-shadow:none !important;
+      opacity:1 !important;
+    }
+
+    .section-title p{
+      color:#5b6472 !important;
+      text-shadow:none !important;
+      opacity:1 !important;
+      font-weight:600 !important;
+    }
+
+    .side-panel{
+      margin-top:0 !important;
+    }
+
+    @media(max-width:760px){
+      main{
+        width:min(100% - 18px,1180px) !important;
+        margin:18px auto 40px !important;
+      }
+
+      .rooms-area{
+        padding:16px 12px;
+      }
+
+      .section-title{
+        gap:6px !important;
+      }
+
+      .section-title h2{
+        font-size:1.25rem !important;
+      }
+
+      .section-title p{
+        font-size:.88rem !important;
+        line-height:1.55;
+      }
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
