@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="한국폴리텍대학 창원캠퍼스 산업설비자동화과 MSDS 자료실">
   <title>산업설비자동화과 MSDS 자료실</title>
+
   <style>
     :root{
       --navy:#123d6a;
@@ -19,11 +20,11 @@
       --shadow:0 10px 28px rgba(20,55,88,.10);
       --shadow-soft:0 4px 14px rgba(20,55,88,.06);
       --focus:#ffbf47;
-      --green:#287447;
+      --danger:#d9363e;
+      --gold:#e3a008;
     }
 
     *{box-sizing:border-box}
-
     body{
       margin:0;
       font-family:"Noto Sans KR","Malgun Gothic",Arial,sans-serif;
@@ -37,9 +38,8 @@
       color:rgba(255,255,255,.88);
       font-size:.86rem;
     }
-
     .topbar-inner{
-      width:min(1180px,calc(100% - 28px));
+      width:min(1120px,calc(100% - 28px));
       margin:0 auto;
       padding:9px 0;
       display:flex;
@@ -56,30 +56,987 @@
       padding:58px 20px 78px;
       text-align:center;
     }
-
     .hero-inner{width:min(980px,100%);margin:0 auto}
-
     .eyebrow{
       margin:0 0 10px;
       font-size:clamp(.95rem,2.2vw,1.12rem);
       font-weight:700;
       opacity:.95;
     }
-
     .hero h1{
       margin:0;
       font-size:clamp(2.5rem,6vw,4.2rem);
       letter-spacing:-.05em;
       line-height:1.15;
     }
-
     .hero-desc{
-      max-width:760px;
+      max-width:720px;
       margin:18px auto 0;
       font-size:clamp(.95rem,2vw,1.06rem);
       opacity:.92;
     }
 
+    main{
+      width:min(1120px,calc(100% - 28px));
+      margin:-42px auto 48px;
+    }
+
+    .search-panel{
+      background:var(--card);
+      border-radius:18px;
+      padding:24px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(216,226,234,.9);
+      margin-bottom:24px;
+    }
+    .search-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:16px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .search-head label{
+      font-size:1.08rem;
+      font-weight:800;
+      color:var(--navy);
+    }
+    .search-head span{
+      color:var(--muted);
+      font-size:.87rem;
+    }
+    .search-panel input{
+      width:100%;
+      padding:15px 17px;
+      border:2px solid var(--line);
+      border-radius:12px;
+      font-size:1rem;
+      outline:none;
+      background:#fff;
+    }
+    .search-panel input:focus{
+      border-color:var(--blue);
+      box-shadow:0 0 0 4px rgba(31,95,153,.12);
+    }
+
+    .status{
+      margin:0 0 18px;
+      padding:12px 15px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      color:var(--muted);
+      font-size:.9rem;
+      box-shadow:var(--shadow-soft);
+    }
+    .status.error{
+      border-color:#e8b4b7;
+      background:#fff5f5;
+      color:#8b2429;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-bottom:22px;
+    }
+    .summary-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:17px 18px;
+      box-shadow:var(--shadow-soft);
+    }
+    .summary-label{
+      display:block;
+      color:var(--muted);
+      font-size:.84rem;
+      margin-bottom:4px;
+    }
+    .summary-value{
+      color:var(--navy);
+      font-size:1.3rem;
+      font-weight:800;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:end;
+      justify-content:space-between;
+      gap:16px;
+      margin:0 0 14px;
+    }
+    .section-title h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .section-title p{
+      margin:0;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+
+    .favorites-section{
+      display:none !important;
+      margin-bottom:24px;
+    }
+    .favorites-section.is-visible{display:block}
+    .favorite-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .room-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+    .room-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .room-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+    .room-card.is-open{grid-column:1 / -1}
+
+    .room-header{
+      width:100%;
+      border:0;
+      background:var(--soft);
+      color:var(--navy);
+      padding:18px 20px;
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      text-align:left;
+    }
+    .room-header:hover{background:#e4eff8}
+    .room-header:focus{
+      outline:3px solid var(--focus);
+      outline-offset:-3px;
+    }
+
+    .room-label{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .room-name{
+      font-size:1.16rem;
+      font-weight:800;
+    }
+    .room-number{
+      color:var(--muted);
+      font-size:.84rem;
+      font-weight:700;
+    }
+    .room-count{
+      min-width:42px;
+      padding:4px 10px;
+      border-radius:999px;
+      background:var(--navy);
+      color:#fff;
+      text-align:center;
+      font-size:.8rem;
+      font-weight:800;
+    }
+    .arrow{
+      font-size:1rem;
+      font-weight:900;
+      color:var(--navy);
+      transition:transform .2s ease;
+    }
+    .room-card.is-open .arrow{transform:rotate(90deg)}
+
+    .room-body{
+      display:none;
+      padding:14px 18px 18px;
+      border-top:1px solid var(--line);
+      background:#fff;
+    }
+    .room-card.is-open .room-body{display:block}
+
+    .document-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .document-card{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+      padding:16px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .document-top{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .pdf-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:42px;
+      height:28px;
+      border-radius:6px;
+      background:var(--danger);
+      color:#fff;
+      font-size:.72rem;
+      font-weight:800;
+      flex:0 0 auto;
+    }
+
+    .doc-main{flex:1;min-width:0}
+    .doc-title{
+      margin:0;
+      color:var(--navy);
+      font-size:1rem;
+      font-weight:800;
+      word-break:break-word;
+    }
+    .doc-room{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+
+    .favorite-button{
+      border:0;
+      background:transparent;
+      color:#a7adb3;
+      font-size:1.35rem;
+      cursor:pointer;
+      padding:0 2px;
+      line-height:1;
+    }
+    .favorite-button.is-favorite{color:var(--gold)}
+    .favorite-button:focus{
+      outline:3px solid var(--focus);
+      border-radius:4px;
+    }
+
+    .document-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .doc-meta{
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .open-link{
+      color:#174f80;
+      text-decoration:none;
+      font-weight:800;
+      font-size:.88rem;
+    }
+    .open-link:hover{text-decoration:underline}
+
+    .empty-state{
+      text-align:center;
+      color:var(--muted);
+      padding:23px 10px 18px;
+    }
+    .empty-state strong{
+      display:block;
+      color:#45515c;
+      margin-bottom:4px;
+      font-size:.95rem;
+    }
+    .empty-state span{font-size:.85rem}
+
+    .no-result{
+      display:none;
+      margin-top:20px;
+      padding:28px;
+      text-align:center;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      color:var(--muted);
+    }
+
+    footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:.84rem;
+      padding:12px 20px 30px;
+    }
+
+
+
+
+    .toolbar{
+      display:flex;
+      justify-content:flex-end;
+      margin:-4px 0 18px;
+    }
+    .admin-open-button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+    }
+    .admin-open-button:hover{background:#edf4fa}
+    .admin-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .admin-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.72);
+      z-index:10000;
+    }
+    .admin-modal.is-open{display:flex}
+    .admin-dialog{
+      width:min(1040px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.32);
+    }
+    .admin-header{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .admin-header h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .admin-header p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+    .admin-close{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#e9edf1;
+      color:#2f3a44;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .admin-content{padding:20px}
+    .admin-summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .admin-stat{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+    }
+    .admin-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-stat strong{
+      display:block;
+      margin-top:3px;
+      color:var(--navy);
+      font-size:1.25rem;
+    }
+    .admin-section{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .admin-section h3{
+      margin:0;
+      padding:13px 15px;
+      background:#edf4fa;
+      color:var(--navy);
+      font-size:1rem;
+    }
+    .admin-list{
+      list-style:none;
+      margin:0;
+      padding:0 15px;
+    }
+    .admin-list li{
+      padding:11px 0;
+      border-bottom:1px solid #edf1f4;
+      word-break:break-all;
+      font-size:.88rem;
+    }
+    .admin-list li:last-child{border-bottom:0}
+    .admin-good{
+      padding:16px;
+      color:#2f6d45;
+      background:#f3fbf6;
+      font-size:.9rem;
+    }
+    .admin-path{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:18px;
+    }
+    .admin-links a{
+      display:inline-flex;
+      align-items:center;
+      border-radius:9px;
+      padding:9px 12px;
+      background:var(--navy);
+      color:#fff;
+      text-decoration:none;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .title-clean-note{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+
+    @media(max-width:760px){
+      .admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .admin-header{align-items:flex-start}
+    }
+
+    .mobile-preview-note{
+      display:none;
+      margin:0 0 16px;
+      padding:11px 14px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#fff;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+
+    .preview-button{
+      border:0;
+      background:#e8f1f8;
+      color:var(--navy);
+      border-radius:8px;
+      padding:8px 11px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:.84rem;
+    }
+    .preview-button:hover{background:#d9e8f3}
+    .preview-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .preview-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.70);
+      z-index:9998;
+    }
+    .preview-modal.is-open{display:flex}
+    .preview-dialog{
+      width:min(1100px,100%);
+      height:min(88vh,900px);
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.30);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+    }
+    .preview-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .preview-heading{
+      min-width:0;
+    }
+    .preview-heading h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.2rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .preview-heading p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+    .preview-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .preview-actions a,
+    .preview-actions button{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      font-weight:800;
+      cursor:pointer;
+      text-decoration:none;
+      font-size:.86rem;
+    }
+    .preview-open{
+      background:var(--navy);
+      color:#fff;
+    }
+    .preview-close{
+      background:#e9edf1;
+      color:#2f3a44;
+    }
+    .preview-frame-wrap{
+      flex:1;
+      min-height:0;
+      background:#e9eef3;
+    }
+    .preview-frame{
+      width:100%;
+      height:100%;
+      border:0;
+      background:#fff;
+    }
+    .preview-fallback{
+      display:none;
+      height:100%;
+      align-items:center;
+      justify-content:center;
+      padding:30px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .qr-button{
+      border:0;
+      background:#eef4f9;
+      color:var(--navy);
+      border-radius:8px;
+      padding:8px 11px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:.84rem;
+    }
+    .qr-button:hover{background:#dfeaf3}
+    .qr-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .qr-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      background:rgba(8,24,40,.66);
+      z-index:9999;
+    }
+    .qr-modal.is-open{display:flex}
+    .qr-dialog{
+      width:min(420px,100%);
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.28);
+      padding:22px;
+      text-align:center;
+    }
+    .qr-dialog h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .qr-dialog p{
+      margin:6px 0 16px;
+      color:var(--muted);
+      font-size:.9rem;
+    }
+    .qr-code{
+      width:236px;
+      min-height:236px;
+      margin:0 auto 16px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:#fff;
+    }
+    .qr-code img,.qr-code canvas{max-width:100%;height:auto}
+    .qr-url{
+      margin:0 0 16px;
+      padding:10px;
+      border-radius:8px;
+      background:#f5f7f9;
+      color:#44515d;
+      font-size:.76rem;
+      word-break:break-all;
+      text-align:left;
+    }
+    .qr-actions{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .qr-actions button{
+      border:0;
+      border-radius:9px;
+      padding:10px 15px;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .qr-print{
+      background:var(--navy);
+      color:#fff;
+    }
+    .qr-close{
+      background:#e9edf1;
+      color:#2f3a44;
+    }
+
+    @media print{
+      body *{visibility:hidden}
+      .qr-dialog,.qr-dialog *{visibility:visible}
+      .qr-modal{
+        position:absolute;
+        inset:0;
+        display:block !important;
+        background:#fff;
+        padding:0;
+      }
+      .qr-dialog{
+        position:absolute;
+        left:50%;
+        top:20px;
+        transform:translateX(-50%);
+        box-shadow:none;
+        border:0;
+      }
+      .qr-actions{display:none}
+    }
+
+    @media(max-width:760px){
+  
+    .toolbar{
+      display:flex;
+      justify-content:flex-end;
+      margin:-4px 0 18px;
+    }
+    .admin-open-button{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--navy);
+      border-radius:10px;
+      padding:10px 14px;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:var(--shadow-soft);
+    }
+    .admin-open-button:hover{background:#edf4fa}
+    .admin-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:2px;
+    }
+
+    .admin-modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background:rgba(8,24,40,.72);
+      z-index:10000;
+    }
+    .admin-modal.is-open{display:flex}
+    .admin-dialog{
+      width:min(1040px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.32);
+    }
+    .admin-header{
+      position:sticky;
+      top:0;
+      z-index:2;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      background:#f8fafc;
+    }
+    .admin-header h2{
+      margin:0;
+      color:var(--navy);
+      font-size:1.35rem;
+    }
+    .admin-header p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.86rem;
+    }
+    .admin-close{
+      border:0;
+      border-radius:9px;
+      padding:9px 13px;
+      background:#e9edf1;
+      color:#2f3a44;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .admin-content{padding:20px}
+    .admin-summary{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .admin-stat{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:14px;
+      background:#fff;
+    }
+    .admin-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-stat strong{
+      display:block;
+      margin-top:3px;
+      color:var(--navy);
+      font-size:1.25rem;
+    }
+    .admin-section{
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      overflow:hidden;
+    }
+    .admin-section h3{
+      margin:0;
+      padding:13px 15px;
+      background:#edf4fa;
+      color:var(--navy);
+      font-size:1rem;
+    }
+    .admin-list{
+      list-style:none;
+      margin:0;
+      padding:0 15px;
+    }
+    .admin-list li{
+      padding:11px 0;
+      border-bottom:1px solid #edf1f4;
+      word-break:break-all;
+      font-size:.88rem;
+    }
+    .admin-list li:last-child{border-bottom:0}
+    .admin-good{
+      padding:16px;
+      color:#2f6d45;
+      background:#f3fbf6;
+      font-size:.9rem;
+    }
+    .admin-path{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+    .admin-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:18px;
+    }
+    .admin-links a{
+      display:inline-flex;
+      align-items:center;
+      border-radius:9px;
+      padding:9px 12px;
+      background:var(--navy);
+      color:#fff;
+      text-decoration:none;
+      font-size:.84rem;
+      font-weight:800;
+    }
+    .title-clean-note{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+
+    @media(max-width:760px){
+      .admin-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .admin-header{align-items:flex-start}
+    }
+
+    .mobile-preview-note{display:block}
+      .summary{grid-template-columns:1fr}
+      .room-grid,.favorite-grid,.document-grid{grid-template-columns:1fr}
+      .room-card.is-open{grid-column:auto}
+      .hero{padding:44px 18px 66px}
+      main{width:min(100% - 18px,1120px)}
+      .topbar-inner{
+        justify-content:center;
+        text-align:center;
+      }
+    }
+
+    /* 최종 배포 UI: PDF 아이콘 클릭 방식 */
+    .document-card{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#fff;
+      padding:20px 16px 16px;
+      box-shadow:var(--shadow-soft);
+      text-align:center;
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+    .document-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+    .pdf-open-button{
+      display:flex;
+      width:100%;
+      flex-direction:column;
+      align-items:center;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:0;
+      color:inherit;
+    }
+    .pdf-open-button:focus{
+      outline:3px solid var(--focus);
+      outline-offset:4px;
+      border-radius:10px;
+    }
+    .pdf-large-icon{
+      width:72px;
+      height:84px;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      padding-bottom:12px;
+      border-radius:9px;
+      background:#d9363e;
+      color:#fff;
+      font-size:.9rem;
+      font-weight:900;
+      letter-spacing:.04em;
+      box-shadow:0 8px 18px rgba(217,54,62,.20);
+      margin-bottom:14px;
+    }
+    .pdf-large-icon::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:22px;
+      height:22px;
+      background:linear-gradient(225deg,#fff 0 49%,#ef9da1 50% 100%);
+      border-top-right-radius:9px;
+    }
+    .pdf-open-button .doc-title{
+      margin:0;
+      color:var(--navy);
+      font-size:1.02rem;
+      font-weight:800;
+      word-break:break-word;
+    }
+    .pdf-open-button .doc-room{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:.84rem;
+    }
+    .pdf-open-button .title-clean-note{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:500;
+    }
+    .final-doc-meta{
+      display:block;
+      margin-top:12px;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+  
+    /* 메인 화면 개편 */
     main{
       width:min(1180px,calc(100% - 28px));
       margin:-42px auto 48px;
@@ -94,139 +1051,14 @@
 
     .rooms-area{
       min-width:0;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:22px;
-      box-shadow:var(--shadow);
     }
-
-    .section-title{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:16px;
-      margin-bottom:16px;
-    }
-
-    .section-title h2{
-      margin:0;
-      color:var(--navy);
-      font-size:1.38rem;
-    }
-
-    .section-title p{
-      margin:0;
-      color:var(--muted);
-      font-size:.9rem;
-    }
-
-    .room-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:14px;
-    }
-
-    .room-card{
-      border:1px solid var(--line);
-      border-radius:14px;
-      overflow:hidden;
-      background:#fff;
-      box-shadow:var(--shadow-soft);
-    }
-
-    .room-card.is-open{
-      grid-column:1 / -1;
-    }
-
-    .room-header{
-      width:100%;
-      border:0;
-      background:var(--soft);
-      color:var(--navy);
-      padding:17px 18px;
-      display:grid;
-      grid-template-columns:minmax(0,1fr) auto;
-      gap:12px;
-      align-items:center;
-      text-align:left;
-      cursor:pointer;
-    }
-
-    .room-header:hover{background:#e4eff8}
-
-    .room-header:focus{
-      outline:3px solid var(--focus);
-      outline-offset:-3px;
-    }
-
-    .room-label{
-      display:flex;
-      flex-direction:column;
-      min-width:0;
-    }
-
-    .room-name{
-      font-size:1.08rem;
-      font-weight:800;
-      line-height:1.35;
-    }
-
-    .room-number{
-      margin-top:3px;
-      color:var(--muted);
-      font-size:.82rem;
-      font-weight:700;
-    }
-
-    .arrow{
-      font-weight:900;
-      transition:transform .2s ease;
-    }
-
-    .room-card.is-open .arrow{
-      transform:rotate(90deg);
-    }
-
-    .room-body{
-      display:none;
-      padding:18px;
-      border-top:1px solid var(--line);
-      background:#fff;
-    }
-
-    .room-card.is-open .room-body{
-      display:block;
-    }
-
-    .room-guide{
-      margin:0 0 14px;
-      color:var(--muted);
-      font-size:.92rem;
-    }
-
-    .mybox-button{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      min-height:46px;
-      padding:11px 18px;
-      border-radius:10px;
-      background:var(--navy);
-      color:#fff;
-      text-decoration:none;
-      font-weight:800;
-    }
-
-    .mybox-button:hover{background:#0d3157}
 
     .side-panel{
-      position:sticky;
-      top:18px;
       display:flex;
       flex-direction:column;
       gap:14px;
+      position:sticky;
+      top:18px;
     }
 
     .side-status-card{
@@ -250,98 +1082,50 @@
       border-bottom:1px solid #edf1f4;
     }
 
-    .side-stat:last-child{border-bottom:0}
-
-    .summary-label{
-      display:block;
-      color:var(--muted);
-      font-size:.82rem;
+    .side-stat .summary-label{
       margin-bottom:3px;
     }
 
-    .summary-value{
+    .side-stat .summary-value{
       display:block;
-      color:var(--navy);
-      font-size:1.25rem;
-      font-weight:800;
+      font-size:1.35rem;
     }
 
     .status-normal{
-      color:var(--green);
-      font-size:1.05rem;
+      color:#287447 !important;
+      font-size:1.08rem !important;
     }
 
-    .open-all{
-      display:block;
+    .side-admin-button{
+      width:calc(100% - 32px);
       margin:14px 16px 16px;
-      padding:10px 12px;
-      border-radius:9px;
-      background:#edf4fa;
-      color:var(--navy);
-      text-align:center;
-      text-decoration:none;
-      font-weight:800;
+      box-shadow:none;
     }
 
-    .search-panel{
-      margin-top:24px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:20px;
+    .side-status-message{
+      margin:0;
+      padding:13px 14px;
+      font-size:.78rem;
+      line-height:1.5;
+      word-break:keep-all;
+    }
+
+    .bottom-search{
+      margin-top:26px;
+      margin-bottom:0;
       box-shadow:var(--shadow-soft);
     }
 
-    .search-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:end;
-      gap:16px;
-      margin-bottom:10px;
-      flex-wrap:wrap;
+    .bottom-search .search-head label{
+      font-size:1.18rem;
     }
 
-    .search-head label{
-      color:var(--navy);
-      font-size:1.1rem;
-      font-weight:800;
+    .room-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
-    .search-head span{
-      color:var(--muted);
-      font-size:.85rem;
-    }
-
-    .search-panel input{
-      width:100%;
-      padding:14px 16px;
-      border:2px solid var(--line);
-      border-radius:11px;
-      font-size:1rem;
-      outline:none;
-    }
-
-    .search-panel input:focus{
-      border-color:var(--blue);
-      box-shadow:0 0 0 4px rgba(31,95,153,.12);
-    }
-
-    .no-result{
-      display:none;
-      margin-top:16px;
-      padding:20px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      color:var(--muted);
-      text-align:center;
-      background:#fff;
-    }
-
-    footer{
-      text-align:center;
-      color:var(--muted);
-      font-size:.84rem;
-      padding:10px 20px 30px;
+    .favorites-section{
+      display:none !important;
     }
 
     @media(max-width:900px){
@@ -358,8 +1142,7 @@
         grid-template-columns:repeat(3,1fr);
       }
 
-      .side-status-card h2,
-      .open-all{
+      .side-status-card h2{
         grid-column:1 / -1;
       }
 
@@ -367,73 +1150,25 @@
         border-bottom:0;
         border-right:1px solid #edf1f4;
       }
+
+      .side-stat:nth-of-type(3){
+        border-right:0;
+      }
+
+      .side-admin-button{
+        grid-column:1 / -1;
+      }
     }
 
     @media(max-width:760px){
-      .topbar-inner{
-        justify-content:center;
-        text-align:center;
-      }
-
-      .hero{
-        padding:44px 18px 66px;
-      }
-
-      main{
-        width:min(100% - 18px,1180px);
-      }
-
-      .rooms-area{
-        padding:16px 12px;
-      }
-
-      .section-title{
-        align-items:flex-start;
+      .content-layout{
+        display:flex;
         flex-direction:column;
-        gap:4px;
       }
 
-      .room-grid{
-        grid-template-columns:1fr;
-        gap:12px;
-      }
-
-      .room-card,
-      .room-card.is-open{
-        grid-column:auto;
+      .rooms-area,
+      .side-panel{
         width:100%;
-      }
-
-      .room-header{
-        position:relative;
-        display:block;
-        min-height:96px;
-        padding:16px 18px;
-      }
-
-      .room-label{
-        display:block;
-        padding-right:36px;
-      }
-
-      .room-name{
-        display:block;
-        white-space:nowrap;
-        overflow:hidden;
-        text-overflow:ellipsis;
-        font-size:1.07rem;
-      }
-
-      .room-number{
-        display:block;
-        margin-top:10px;
-        white-space:nowrap;
-      }
-
-      .arrow{
-        position:absolute;
-        right:18px;
-        bottom:18px;
       }
 
       .side-status-card{
@@ -445,11 +1180,219 @@
         border-bottom:1px solid #edf1f4;
       }
 
-      .mybox-button{
-        width:100%;
+      .bottom-search{
+        margin-top:20px;
+      }
+
+      .section-title{
+        align-items:flex-start;
+        flex-direction:column;
+        gap:4px;
       }
     }
+
+  
+    /* 모바일 실습실 카드 배열 개선 */
+    @media(max-width:760px){
+      .room-grid{
+        grid-template-columns:1fr !important;
+        gap:12px;
+      }
+
+      .room-card,
+      .room-card.is-open{
+        grid-column:auto !important;
+        width:100%;
+      }
+
+      .room-header{
+        grid-template-columns:minmax(0,1fr) auto auto;
+        padding:16px 18px;
+        min-height:82px;
+      }
+
+      .room-label{
+        min-width:0;
+      }
+
+      .room-name{
+        font-size:1.05rem;
+        line-height:1.35;
+        word-break:keep-all;
+        overflow-wrap:normal;
+      }
+
+      .room-number{
+        margin-top:3px;
+        font-size:.8rem;
+        white-space:nowrap;
+      }
+
+      .room-count{
+        min-width:44px;
+        white-space:nowrap;
+      }
+
+      .arrow{
+        white-space:nowrap;
+      }
+    }
+
+  
+    /* 모바일 카드 UI 개선 V2 */
+    @media(max-width:760px){
+      .room-grid{
+        grid-template-columns:1fr !important;
+        gap:12px;
+      }
+
+      .room-card,
+      .room-card.is-open{
+        grid-column:auto !important;
+        width:100%;
+      }
+
+      .room-header{
+        position:relative;
+        display:block;
+        min-height:98px;
+        padding:16px 18px 15px;
+        text-align:left;
+      }
+
+      .room-label{
+        display:block;
+        min-width:0;
+        padding-right:96px;
+      }
+
+      .room-name{
+        display:block;
+        width:100%;
+        font-size:1.08rem;
+        line-height:1.35;
+        font-weight:800;
+        white-space:nowrap;
+        word-break:keep-all;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      .room-number{
+        display:block;
+        margin-top:10px;
+        font-size:.82rem;
+        line-height:1;
+        white-space:nowrap;
+      }
+
+      .room-count{
+        position:absolute;
+        right:42px;
+        bottom:14px;
+        min-width:46px;
+        padding:4px 10px;
+        white-space:nowrap;
+      }
+
+      .arrow{
+        position:absolute;
+        right:18px;
+        bottom:16px;
+        line-height:1;
+        white-space:nowrap;
+      }
+    }
+
+  
+    /* MYBOX 직접 연결형 카드 */
+    .room-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      overflow:hidden;
+      box-shadow:var(--shadow-soft);
+      transition:transform .2s ease,box-shadow .2s ease;
+    }
+
+    .room-card:hover{
+      transform:translateY(-2px);
+      box-shadow:var(--shadow);
+    }
+
+    .room-link{
+      display:block;
+      position:relative;
+      min-height:96px;
+      padding:18px 58px 18px 20px;
+      background:var(--soft);
+      color:var(--navy);
+      text-decoration:none;
+    }
+
+    .room-link:hover{
+      background:#e4eff8;
+    }
+
+    .room-link:focus{
+      outline:3px solid var(--focus);
+      outline-offset:-3px;
+    }
+
+    .room-link .room-name{
+      display:block;
+      font-size:1.08rem;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .room-link .room-number{
+      display:block;
+      margin-top:7px;
+      color:var(--muted);
+      font-size:.83rem;
+      font-weight:700;
+    }
+
+    .room-open-text{
+      position:absolute;
+      right:20px;
+      bottom:16px;
+      color:var(--navy);
+      font-size:.82rem;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .room-open-arrow{
+      margin-left:4px;
+    }
+
+    @media(max-width:760px){
+      .room-link{
+        min-height:98px;
+        padding:16px 96px 15px 18px;
+      }
+
+      .room-link .room-name{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        font-size:1.07rem;
+      }
+
+      .room-link .room-number{
+        margin-top:10px;
+      }
+
+      .room-open-text{
+        right:18px;
+        bottom:16px;
+      }
+    }
+
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -475,7 +1418,7 @@
       <section class="rooms-area">
         <div class="section-title">
           <h2>실습실별 자료</h2>
-          <p>실습실을 선택한 뒤 MYBOX에서 해당 폴더를 열어 자료를 확인하세요.</p>
+          <p>실습실 카드를 누르면 해당 MYBOX 폴더가 바로 열립니다.</p>
         </div>
 
         <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 자료"></section>
@@ -500,124 +1443,120 @@
             <span class="summary-label">운영 상태</span>
             <strong class="summary-value status-normal">● 정상</strong>
           </div>
-
-          <a class="open-all" href="https://naver.me/5UVe645d" target="_blank" rel="noopener">
-            전체 MSDS 폴더 열기
-          </a>
         </section>
       </aside>
     </div>
 
-    <section class="search-panel">
+    <section class="search-panel bottom-search">
       <div class="search-head">
         <label for="searchInput">실습실 검색</label>
         <span>실습실명 또는 호실로 검색</span>
       </div>
-      <input id="searchInput" type="search" placeholder="예: 가스용접실, 8-2050" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="예: 가스용접실, 8-2050, CAD" autocomplete="off">
     </section>
   </main>
+<section class="admin-section">
+          <h3>중복 의심 자료</h3>
+          <div id="duplicateResults"></div>
+        </section>
+
+        <section class="admin-section">
+          <h3>폴더 위치 점검</h3>
+          <div id="folderResults"></div>
+        </section>
+
+        <section class="admin-section">
+          <h3>파일명 정리 권장</h3>
+          <div id="nameResults"></div>
+        </section>
+
+        <div class="admin-links">
+          <a href="https://github.com/chobo-jungwoosuk/chobo-jungwoosuk.github.io/tree/main/pdf" target="_blank" rel="noopener">GitHub PDF 폴더 열기</a>
+          <a href="https://github.com/chobo-jungwoosuk/chobo-jungwoosuk.github.io/upload/main/pdf" target="_blank" rel="noopener">PDF 업로드 화면 열기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="preview-frame-wrap">
+        <iframe id="previewFrame" class="preview-frame" title="PDF 미리보기"></iframe>
+        <div id="previewFallback" class="preview-fallback">
+          이 브라우저에서는 PDF 미리보기를 표시하지 못했습니다. 위의 ‘새 창에서 열기’를 사용하십시오.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
   <footer>
-    자료의 최신 개정일과 제조사 정보를 확인하여 사용하십시오.<br>
+    자료의 최신 개정일과 제조사 정보를 확인하여 관리하십시오.<br>
     © Jung Woosuk
   </footer>
 
   <script>
-    const MYBOX_URL = "https://naver.me/5UVe645d";
-
     const rooms = [
-      { name:"용접실습실", number:"8-1060" },
-      { name:"특수용접실", number:"8-1080" },
-      { name:"전기용접실", number:"8-1090" },
-      { name:"가스용접실", number:"8-2050" },
-      { name:"조선인력양성실습실", number:"8-2060" },
-      { name:"X-RAY실", number:"8-2070" },
-      { name:"배관실습실", number:"8-2090" },
-      { name:"설비자동화실", number:"8-3150" },
-      { name:"설비CAD실", number:"8-4120" },
-      { name:"공용", number:"" }
+      { name:"공용", number:"", url:"https://naver.me/5GcIvPXq" },
+      { name:"용접실습실", number:"8-1060", url:"https://naver.me/xaTOmYDd" },
+      { name:"특수용접실", number:"8-1080", url:"https://naver.me/xG0eALTz" },
+      { name:"전기용접실", number:"8-1090", url:"https://naver.me/5wr3i8UC" },
+      { name:"가스용접실", number:"8-2050", url:"https://naver.me/5l2qaT1Z" },
+      { name:"조선인력양성실습실", number:"8-2060", url:"https://naver.me/GntoIcEO" },
+      { name:"X-RAY실", number:"8-2070", url:"https://naver.me/GntoIZNb" },
+      { name:"배관실습실", number:"8-2090", url:"https://naver.me/GEd7KpbF" },
+      { name:"설비자동화실", number:"8-3150", url:"https://naver.me/xNpbuqnz" },
+      { name:"설비CAD실", number:"8-4120", url:"https://naver.me/xEXOHond" }
     ];
 
     const roomGrid = document.getElementById("roomGrid");
     const searchInput = document.getElementById("searchInput");
     const noResult = document.getElementById("noResult");
 
-    function closeAllCards(){
-      document.querySelectorAll(".room-card.is-open").forEach(card => {
-        card.classList.remove("is-open");
-        card.querySelector(".room-header")?.setAttribute("aria-expanded","false");
-      });
+    function normalize(value){
+      return String(value ?? "")
+        .toLocaleLowerCase("ko-KR")
+        .replace(/\s+/g,"");
     }
 
     function render(query=""){
-      const keyword = query.trim().toLocaleLowerCase("ko-KR");
+      const keyword = normalize(query);
       roomGrid.innerHTML = "";
 
       const filtered = rooms.filter(room => {
         if(!keyword) return true;
-        return `${room.name} ${room.number}`.toLocaleLowerCase("ko-KR").includes(keyword);
+        return normalize(`${room.name} ${room.number}`).includes(keyword);
       });
 
       filtered.forEach(room => {
         const card = document.createElement("article");
         card.className = "room-card";
 
-        const header = document.createElement("button");
-        header.type = "button";
-        header.className = "room-header";
-        header.setAttribute("aria-expanded","false");
-
-        const label = document.createElement("span");
-        label.className = "room-label";
+        const link = document.createElement("a");
+        link.className = "room-link";
+        link.href = room.url;
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.setAttribute(
+          "aria-label",
+          `${room.name}${room.number ? ` ${room.number}` : ""} MYBOX 폴더 열기`
+        );
 
         const name = document.createElement("span");
         name.className = "room-name";
         name.textContent = room.name;
-        label.appendChild(name);
+        link.appendChild(name);
 
         if(room.number){
           const number = document.createElement("span");
           number.className = "room-number";
           number.textContent = room.number;
-          label.appendChild(number);
+          link.appendChild(number);
         }
 
-        const arrow = document.createElement("span");
-        arrow.className = "arrow";
-        arrow.textContent = "▶";
-        arrow.setAttribute("aria-hidden","true");
+        const openText = document.createElement("span");
+        openText.className = "room-open-text";
+        openText.innerHTML = `자료 보기 <span class="room-open-arrow">▶</span>`;
 
-        header.append(label,arrow);
-
-        const body = document.createElement("div");
-        body.className = "room-body";
-
-        const guide = document.createElement("p");
-        guide.className = "room-guide";
-        guide.textContent = room.number
-          ? `MYBOX가 열리면 “${room.name}(${room.number})” 폴더를 선택하세요.`
-          : `MYBOX가 열리면 “${room.name}” 폴더를 선택하세요.`;
-
-        const link = document.createElement("a");
-        link.className = "mybox-button";
-        link.href = MYBOX_URL;
-        link.target = "_blank";
-        link.rel = "noopener";
-        link.textContent = "📂 MYBOX에서 자료 보기";
-
-        body.append(guide,link);
-
-        header.addEventListener("click",() => {
-          const wasOpen = card.classList.contains("is-open");
-          closeAllCards();
-
-          if(!wasOpen){
-            card.classList.add("is-open");
-            header.setAttribute("aria-expanded","true");
-          }
-        });
-
-        card.append(header,body);
+        link.appendChild(openText);
+        card.appendChild(link);
         roomGrid.appendChild(card);
       });
 
@@ -625,7 +1564,6 @@
     }
 
     searchInput.addEventListener("input",event => render(event.target.value));
-
     render();
   </script>
 </body>
