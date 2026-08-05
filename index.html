@@ -169,11 +169,14 @@
       margin:0 0 14px;
     }
     .section-title h2{
+      color:#153E75;
       margin:0;
       color:var(--navy);
       font-size:1.35rem;
     }
     .section-title p{
+      color:#5B6472;
+      font-weight:600;
       margin:0;
       color:var(--muted);
       font-size:.9rem;
@@ -1418,7 +1421,7 @@
       <section class="rooms-area">
         <div class="section-title">
           <h2>실습실별 자료</h2>
-          <p>실습실 카드를 누르면 해당 MYBOX 폴더가 바로 열립니다.</p>
+          <p>📁 실습실 카드를 누르면 해당 MYBOX 폴더가 바로 열립니다.</p>
         </div>
 
         <section id="roomGrid" class="room-grid" aria-label="실습실별 MSDS 자료"></section>
@@ -1494,7 +1497,6 @@
 
   <script>
     const rooms = [
-      { name:"공용", number:"", url:"https://naver.me/5GcIvPXq" },
       { name:"용접실습실", number:"8-1060", url:"https://naver.me/xaTOmYDd" },
       { name:"특수용접실", number:"8-1080", url:"https://naver.me/xG0eALTz" },
       { name:"전기용접실", number:"8-1090", url:"https://naver.me/5wr3i8UC" },
@@ -1503,7 +1505,8 @@
       { name:"X-RAY실", number:"8-2070", url:"https://naver.me/GntoIZNb" },
       { name:"배관실습실", number:"8-2090", url:"https://naver.me/GEd7KpbF" },
       { name:"설비자동화실", number:"8-3150", url:"https://naver.me/xNpbuqnz" },
-      { name:"설비CAD실", number:"8-4120", url:"https://naver.me/xEXOHond" }
+      { name:"설비CAD실", number:"8-4120", url:"https://naver.me/xEXOHond" },
+      { name:"공용", number:"", url:"https://naver.me/5GcIvPXq" }
     ];
 
     const roomGrid = document.getElementById("roomGrid");
